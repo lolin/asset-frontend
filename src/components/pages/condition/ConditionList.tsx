@@ -85,11 +85,11 @@ const List: React.FC<ConditionProps> = ({ condition, setRefresh, token }) => {
         <FiEdit
           onClick={() => setOpenModalEdit(true)}
           size={20}
-          className="text-blue-500 hover:text-blue-300 transition-all"
+          className="text-blue-950 hover:text-slate-600 transition-all"
           cursor="pointer"
         />
         <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit}>
-          <ModalForm handleSubmit={handleSubmit} title={"Edit Category"}>
+          <ModalForm handleSubmit={handleSubmit} title={"Edit Condition"}>
             <div className="w-full max-w-lg">
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3">
@@ -118,11 +118,7 @@ const List: React.FC<ConditionProps> = ({ condition, setRefresh, token }) => {
                 </div>
               </div>
               <div className="flex flex-wrap mb-0 mx-2 float-right">
-                <Button
-                  text={"Update"}
-                  type={"submit"}
-                  style={"bg-indigo-600 text-white"}
-                />
+                <Button text={"Update"} type={"submit"} style={""} />
               </div>
             </div>
           </ModalForm>
@@ -130,7 +126,7 @@ const List: React.FC<ConditionProps> = ({ condition, setRefresh, token }) => {
         <FiTrash2
           onClick={() => setOpenModalDelete(true)}
           size={20}
-          className="text-red-600 transition-all hover:text-red-300"
+          className="text-blue-950 hover:text-slate-600 transition-all"
           cursor="pointer"
         />
         <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete}>

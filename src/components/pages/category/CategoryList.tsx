@@ -63,7 +63,7 @@ const List: React.FC<CategoryProps> = ({ category, setRefresh, token }) => {
         <FiEdit
           onClick={() => setOpenModalEdit(true)}
           size={20}
-          className="text-blue-500 hover:text-blue-300 transition-all"
+          className="text-blue-950 hover:text-slate-600 transition-all"
           cursor="pointer"
         />
         <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit}>
@@ -76,17 +76,13 @@ const List: React.FC<CategoryProps> = ({ category, setRefresh, token }) => {
               setValue={setCategoryEdit}
               style={""}
             />
-            <Button
-              text={"Update"}
-              type={"submit"}
-              style={"bg-indigo-600 text-white"}
-            />
+            <Button text={"Update"} type={"submit"} style={""} />
           </ModalForm>
         </Modal>
         <FiTrash2
           onClick={() => setOpenModalDelete(true)}
           size={20}
-          className="text-red-600 transition-all hover:text-red-300"
+          className="text-blue-950 hover:text-slate-600 transition-all"
           cursor="pointer"
         />
         <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete}>

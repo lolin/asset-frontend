@@ -100,13 +100,13 @@ const List: React.FC<VendorProps> = ({ vendor, setRefresh, token }) => {
     <Row key={vendor.id}>
       <Col style="w-1/4">{vendor.name}</Col>
       <Col style="w-1/4">{vendor.phone}</Col>
-      <Col style="w-1/4">{vendor.website}</Col>
+      <Col style="w-1/4 flex">{vendor.website}</Col>
       <Col style="w-1/4">{vendor.address}</Col>
       <Col style={"flex gap-5"}>
         <BsEye
           onClick={() => setOpenModalPreview(true)}
           size={20}
-          className="text-green-700 hover:text-green-400 transition-all"
+          className="text-blue-950 hover:text-slate-600 transition-all"
           cursor="pointer"
         />
         <Modal modalOpen={openModalPreview} setModalOpen={setOpenModalPreview}>
@@ -189,7 +189,7 @@ const List: React.FC<VendorProps> = ({ vendor, setRefresh, token }) => {
         <FiEdit
           onClick={() => setOpenModalEdit(true)}
           size={20}
-          className="text-blue-500 hover:text-blue-300 transition-all"
+          className="text-blue-950 hover:text-slate-600 transition-all"
           cursor="pointer"
         />
         <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit}>
@@ -313,11 +313,7 @@ const List: React.FC<VendorProps> = ({ vendor, setRefresh, token }) => {
                 />
               </div>
               <div className="flex flex-wrap -mx-3 mb-6 float-right">
-                <Button
-                  text={"Update"}
-                  type={"submit"}
-                  style={"bg-indigo-600 text-white"}
-                />
+                <Button text={"Update"} type={"submit"} style={""} />
               </div>
             </div>
           </ModalForm>
@@ -325,7 +321,7 @@ const List: React.FC<VendorProps> = ({ vendor, setRefresh, token }) => {
         <FiTrash2
           onClick={() => setOpenModalDelete(true)}
           size={20}
-          className="text-red-600 transition-all hover:text-red-300"
+          className="text-blue-950 hover:text-slate-600 transition-all"
           cursor="pointer"
         />
         <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete}>

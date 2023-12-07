@@ -53,13 +53,13 @@ const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
         onClick={() => {
           setModalOpen(true), setNewCondition(""), setNewDescription("");
         }}
-        className="btn bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+        className="btn bg-blue-950 hover:bg-slate-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
       >
         Create
         <AiOutlinePlus size={20} />
       </button>
       <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
-        <ModalForm handleSubmit={handleSubmit} title={"Add new condition"}>
+        <ModalForm handleSubmit={handleSubmit} title={"Add New Condition"}>
           <div className="w-full max-w-lg mx-4">
             <div className="flex flex-wrap -mx-3 mb-6">
               <Label htmlFor={"name"} label={"Name"} />
@@ -84,7 +84,7 @@ const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
               />
             </div>
             <div className="flex flex-wrap -mx-3 mb-6 float-right">
-              <Button text={"Submit"} type={"submit"} style={"bg-indigo-600"} />
+              <Button text={"Submit"} type={"submit"} style={""} />
             </div>
           </div>
         </ModalForm>

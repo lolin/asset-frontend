@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Puff } from "react-loading-icons";
 import PaginationComponent from "@/components/utility/PaginationComponent";
 import { Category } from "@/types/category";
+import THead from "@/components/elements/THead";
 
 interface AssetProps {
   assets: Asset[];
@@ -44,24 +45,12 @@ const AssetTable: React.FC<AssetProps> = ({
           <table className="min-w-full leading-normal">
             <thead>
               <tr>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Asset
-                </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Category
-                </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Brand
-                </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Department
-                </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Purchase Date
-                </th>
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Action
-                </th>
+                <THead>Asset</THead>
+                <THead>Category</THead>
+                <THead>Brand</THead>
+                <THead>Department</THead>
+                <THead>Purchase Date</THead>
+                <THead>Action</THead>
               </tr>
             </thead>
             <tbody>

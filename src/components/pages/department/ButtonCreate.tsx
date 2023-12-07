@@ -54,7 +54,7 @@ const ButtonCreate = ({ setRefresh, token, company }: RefreshProps, {}) => {
           setModalOpen(true);
           setNewCompany("");
         }}
-        className="btn bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+        className="btn bg-blue-950 hover:bg-slate-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
       >
         Create
         <AiOutlinePlus size={20} />
@@ -92,7 +92,7 @@ const ButtonCreate = ({ setRefresh, token, company }: RefreshProps, {}) => {
               </Select>
             </div>
             <div className="flex flex-wrap -mx-3 mb-6 float-right">
-              <Button text={"Submit"} type={"submit"} style={"bg-indigo-600"} />
+              <Button text={"Submit"} type={"submit"} style={""} />
             </div>
           </div>
         </ModalForm>

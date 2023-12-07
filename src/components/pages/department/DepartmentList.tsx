@@ -1,5 +1,7 @@
 import Button from "@/components/elements/Button";
+import Col from "@/components/elements/Col";
 import Label from "@/components/elements/Label";
+import Row from "@/components/elements/Row";
 import Select from "@/components/elements/Select";
 import TextInput from "@/components/elements/TextInput";
 import Modal from "@/components/modal/Modal";
@@ -81,21 +83,14 @@ const List: React.FC<DepartmentProps> = ({
     setRefresh(true);
   };
   return (
-    <tr
-      key={department.id}
-      className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
-    >
-      <td scope="row" className="px-5 py-5  text-sm w-1/2">
-        {department.name}
-      </td>
-      <td scope="row" className="px-5 py-5  text-sm w-1/2">
-        {department.Company.name}
-      </td>
-      <td className="flex gap-5 px-5 py-5  text-sm">
+    <Row key={department.id}>
+      <Col style={"w-1/2"}>{department.name}</Col>
+      <Col style={"w-1/2"}>{department.Company.name}</Col>
+      <Col style={"flex gap-5"}>
         <FiEdit
           onClick={() => setOpenModalEdit(true)}
           size={20}
-          className="text-blue-500 hover:text-blue-300 transition-all"
+          className="text-blue-950 hover:text-slate-600 transition-all"
           cursor="pointer"
         />
         <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit}>
@@ -131,11 +126,7 @@ const List: React.FC<DepartmentProps> = ({
                 </Select>
               </div>
               <div className="flex flex-wrap -mx-3 mb-6 float-right">
-                <Button
-                  text={"Update"}
-                  type={"submit"}
-                  style={"bg-indigo-600 text-white"}
-                />
+                <Button text={"Update"} type={"submit"} style={""} />
               </div>
             </div>
           </ModalForm>
@@ -143,7 +134,7 @@ const List: React.FC<DepartmentProps> = ({
         <FiTrash2
           onClick={() => setOpenModalDelete(true)}
           size={20}
-          className="text-red-600 transition-all hover:text-red-300"
+          className="text-blue-950 hover:text-slate-600 transition-all"
           cursor="pointer"
         />
         <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete}>
@@ -154,8 +145,8 @@ const List: React.FC<DepartmentProps> = ({
             itemDelete={departmentDelete}
           />
         </Modal>
-      </td>
-    </tr>
+      </Col>
+    </Row>
   );
 };
 export default List;

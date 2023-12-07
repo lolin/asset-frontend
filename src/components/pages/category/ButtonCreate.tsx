@@ -48,7 +48,7 @@ const ButtonCreate: React.FC<RefreshProps> = (
     <div className="lg:ml-40 ml-10 space-x-8">
       <button
         onClick={() => setModalOpen(true)}
-        className="btn bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+        className="btn bg-blue-950 hover:bg-slate-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
       >
         Create
         <AiOutlinePlus size={20} />
@@ -63,7 +63,7 @@ const ButtonCreate: React.FC<RefreshProps> = (
             setValue={setNewTaskValue}
             style={""}
           />
-          <Button text={"Submit"} type={"submit"} style={"bg-indigo-600"} />
+          <Button text={"Submit"} type={"submit"} style={""} />
         </ModalForm>
       </Modal>
     </div>

@@ -125,14 +125,14 @@ const List: React.FC<AssetProps> = ({ asset, setRefresh, token }) => {
           <BsEye
             onClick={() => setOpenModalPreview(true)}
             size={20}
-            className="text-green-700 hover:text-green-400 transition-all"
+            className="text-blue-950 hover:text-slate-600 transition-all"
             cursor="pointer"
           />
         </Link>
         <FiEdit
           onClick={() => setOpenModalEdit(true)}
           size={20}
-          className="text-blue-500 hover:text-blue-300 transition-all"
+          className="text-blue-950 hover:text-slate-600 transition-all"
           cursor="pointer"
         />
         <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit}>
@@ -324,7 +324,7 @@ const List: React.FC<AssetProps> = ({ asset, setRefresh, token }) => {
         <FiTrash2
           onClick={() => setOpenModalDelete(true)}
           size={20}
-          className="text-red-600 transition-all hover:text-red-300"
+          className="text-blue-950 hover:text-slate-600 transition-all"
           cursor="pointer"
         />
         <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete}>
