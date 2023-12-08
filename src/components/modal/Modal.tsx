@@ -10,7 +10,7 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, children }) => {
       className={`modal ${modalOpen ? "modal-open" : ""} `}
     >
       {/* <div className="modal-box  w-11/12 max-w-5xl"> modal large */}
-      <div className="modal-box">
+      <div className="modal-box no-scrollbar">
         <form method="dialog">
           <button
             onClick={() => setModalOpen(false)}

@@ -45,10 +45,10 @@ const ButtonCreate: React.FC<RefreshProps> = (
     setModalOpen(false);
   };
   return (
-    <div className="lg:ml-40 ml-10 space-x-8">
+    <div className="lg:ml-40 ml-0 lg:space-x-8">
       <button
         onClick={() => setModalOpen(true)}
-        className="btn bg-blue-950 hover:bg-slate-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+        className="btn w-full bg-blue-950 hover:bg-slate-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
       >
         Create
         <AiOutlinePlus size={20} />

@@ -67,10 +67,10 @@ export default function Company() {
     }
   }, [page, keyword, getCompany, refresh, accessToken]);
   return (
-    <div className="bg-white p-8 rounded-md w-full">
-      <div className=" flex items-center justify-between pb-6">
+    <div className="bg-white p-8 rounded-md w-full shadow-xl">
+      <div className=" mb-1 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <HeaderCompnent title="Company" subTitle="All companies item" />
-        <div className="flex items-center justify-between">
+        <div className=" mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between ">
           <SearchComponent
             searchData={searchCompany}
             placeholder="Search company"

@@ -67,10 +67,10 @@ export default function Condition() {
     }
   }, [page, keyword, getCondition, refresh, accessToken]);
   return (
-    <div className="bg-white p-8 rounded-md w-full">
-      <div className=" flex items-center justify-between pb-6">
+    <div className="bg-white p-8 rounded-md w-full shadow-xl">
+      <div className=" mb-1 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <HeaderCompnent title="Condition" subTitle="All conditions item" />
-        <div className="flex items-center justify-between">
+        <div className=" mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between ">
           <SearchComponent
             searchData={searchCondition}
             placeholder="Search condition"
