@@ -217,6 +217,15 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
                           </li>
                           <li>
                             <SidebarLink
+                              url="/depreciations"
+                              pathname={pathname}
+                              style={""}
+                            >
+                              Depreciations
+                            </SidebarLink>
+                          </li>
+                          <li>
+                            <SidebarLink
                               url="/vendors"
                               pathname={pathname}
                               style={""}
