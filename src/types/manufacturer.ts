@@ -1,4 +1,4 @@
-export interface Brand {
+export interface Manufacturer {
   id: number;
   name: string;
   isActive: boolean;

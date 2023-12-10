@@ -18,7 +18,7 @@ export default function Asset() {
   const [totalData, setTotalData] = useState(0);
   const [assets, setAsset] = useState([]);
   const [departments, setDepartmens] = useState([]);
-  const [brands, setBrands] = useState([]);
+  const [manufacturers, setBrands] = useState([]);
   const [vendors, setVendors] = useState([]);
   const [conditions, setConditions] = useState([]);
   const [categories, setCategories] = useState([]);

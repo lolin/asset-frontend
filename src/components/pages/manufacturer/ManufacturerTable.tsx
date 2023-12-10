@@ -1,12 +1,12 @@
-import { Brand } from "@/types/brand";
-import List from "./BrandList";
+import { Manufacturer } from "@/types/manufacturer";
+import List from "./ManufacturerList";
 import { useEffect } from "react";
 import { Puff } from "react-loading-icons";
 import PaginationComponent from "@/components/utility/PaginationComponent";
 import THead from "@/components/elements/THead";
 
 interface BrandProps {
-  categories: Brand[];
+  categories: Manufacturer[];
   page: number;
   setPage: any;
   limit: number;
@@ -60,10 +60,10 @@ const BrandTable: React.FC<BrandProps> = ({
                   </td>
                 </tr>
               ) : categories.length > 0 ? (
-                categories.map((brand: any) => (
+                categories.map((manufacturer: any) => (
                   <List
-                    key={brand.id}
-                    brand={brand}
+                    key={manufacturer.id}
+                    manufacturer={manufacturer}
                     setRefresh={setRefresh}
                     token={token}
                   />

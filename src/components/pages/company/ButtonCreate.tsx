@@ -19,7 +19,7 @@ const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (newTaskValue !== "") {
-      const res = await fetch(`${url}/brands`, {
+      const res = await fetch(`${url}/manufacturers`, {
         cache: "no-store",
         method: "POST",
         headers: {
@@ -36,7 +36,7 @@ const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
         }
         throw new Error("Failed to fetch data");
       }
-      toast.success("Brand added successfully");
+      toast.success("Manufacturer added successfully");
       setRefresh(true);
     }
     setNewTaskValue("");

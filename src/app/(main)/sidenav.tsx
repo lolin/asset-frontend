@@ -25,10 +25,10 @@ export default function Sidenav() {
     //         Assets
     //       </li>
     //     </Link>
-    //     <Link href="/brands">
+    //     <Link href="/manufacturers">
     //       <li
     //         className={`mb-2 ${
-    //           pathname === "/brands" ? "text-white" : ""
+    //           pathname === "/manufacturers" ? "text-white" : ""
     //         } cursor-pointer hover:text-white`}
     //       >
     //         Brands

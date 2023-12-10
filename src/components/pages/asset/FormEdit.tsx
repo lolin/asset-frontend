@@ -24,7 +24,7 @@ const FormEdit = (props: { params: string }) => {
   const [keyword, setKeyword] = useState("");
   const [categories, setCategory] = useState([]);
   const [departments, setDepartment] = useState([]);
-  const [brands, setBrand] = useState([]);
+  const [manufacturers, setBrand] = useState([]);
   const [vendors, setVendor] = useState([]);
   const [conditions, setCondition] = useState([]);
   const [asset, setAsset] = useState([]);
@@ -122,7 +122,7 @@ const FormEdit = (props: { params: string }) => {
   const getBrands = useCallback(async () => {
     try {
       const res = await fetch(
-        `${url}/brands?key=${keyword}&page=${page}&limit=${limit}`,
+        `${url}/manufacturers?key=${keyword}&page=${page}&limit=${limit}`,
         {
           cache: "no-store",
           method: "GET",
@@ -336,8 +336,8 @@ const FormEdit = (props: { params: string }) => {
                         ))}
                       </SelectOption>
                       <SelectOption
-                        name={"brand"}
-                        label={"Brand"}
+                        name={"manufacturer"}
+                        label={"Manufacturer"}
                         required={true}
                         inputValue={assetBrandId}
                         setValue={setAssetBrandId}
@@ -345,7 +345,7 @@ const FormEdit = (props: { params: string }) => {
                         divStyle="md:w-1/2 mb-6 md:mb-0"
                       >
                         <option className="mb-2 pb-2">&nbsp;</option>
-                        {brands.map((item: any) => (
+                        {manufacturers.map((item: any) => (
                           <option
                             key={item.id}
                             value={item.id}

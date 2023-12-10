@@ -113,7 +113,7 @@ const List: React.FC<AssetProps> = ({ asset, setRefresh, token }) => {
     <Row key={asset.id}>
       <Col style={"w-1/5"}>{asset.name}</Col>
       <Col style={"w-1/5"}>{asset.Category.name}</Col>
-      <Col style={"w-1/5"}>{asset.Brand.name}</Col>
+      <Col style={"w-1/5"}>{asset.Manufacturer.name}</Col>
       <Col style={"w-1/5"}>{asset.Department.name}</Col>
       <Col style={"w-1/5"}>
         {asset.purchaseDate

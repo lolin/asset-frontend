@@ -1,14 +1,14 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
-import ButtonCreate from "@/components/pages/brand/ButtonCreate";
-import BrandTable from "@/components/pages/brand/BrandTable";
-import { ToastContainer } from "react-toastify";
+import ButtonCreate from "@/components/pages/manufacturer/ButtonCreate";
+import BrandTable from "@/components/pages/manufacturer/ManufacturerTable";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HeaderCompnent from "@/components/utility/HeaderComponent";
 import SearchComponent from "@/components/utility/SearchComponent";
 
-export default function Brand() {
+export default function Manufacturer() {
   const session = useSession();
   const url = process.env.NEXT_PUBLIC_API_URL;
   const [page, setPage] = useState(1);
@@ -25,7 +25,7 @@ export default function Brand() {
   const getBrand = useCallback(async () => {
     try {
       const res = await fetch(
-        `${url}/brands?key=${keyword}&page=${page}&limit=${limit}`,
+        `${url}/manufacturers?key=${keyword}&page=${page}&limit=${limit}`,
         {
           cache: "no-store",
           method: "GET",
@@ -35,10 +35,14 @@ export default function Brand() {
           },
         }
       );
+      console.log(res);
+
       if (!res.ok) {
         if (res.status === 401) {
           signOut();
         }
+        setLoading(false);
+        toast.error("Failed to fetch data");
         throw new Error("Failed to fetch data");
       }
       const data = await res.json();
@@ -69,11 +73,14 @@ export default function Brand() {
   return (
     <div className="bg-white p-8 rounded-md w-full shadow-xl">
       <div className=" mb-1 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <HeaderCompnent title="Brand" subTitle="All brands item" />
+        <HeaderCompnent
+          title="Manufacturer"
+          subTitle="All manufacturers item"
+        />
         <div className=" mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between ">
           <SearchComponent
             searchData={searchBrand}
-            placeholder={"Search brand"}
+            placeholder={"Search manufacturer"}
           />
           <ButtonCreate setRefresh={setRefresh} token={token} />
         </div>

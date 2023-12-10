@@ -17,7 +17,7 @@ export default function NavbarOld() {
           <Link href="/">
             <li className="mr-3 text-blue-300 cursor-pointer">Assets</li>
           </Link>
-          <Link href="/brands">
+          <Link href="/manufacturers">
             <li className="mr-3 text-blue-300 cursor-pointer">Brands</li>
           </Link>
         </ul>

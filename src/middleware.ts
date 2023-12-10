@@ -12,7 +12,7 @@ export function mainmiddleware(req: NextRequest) {
 
 export default authMiddleware(mainmiddleware, [
   "/dashboard",
-  "/brands",
+  "/manufacturers",
   "/assets",
   "/vendors",
   "/login",

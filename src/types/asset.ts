@@ -12,7 +12,7 @@ export interface Asset {
     name: string;
   };
   brandId: number;
-  Brand: {
+  Manufacturer: {
     id: number;
     name: string;
   };

@@ -5,26 +5,26 @@ import TextInput from "@/components/elements/TextInput";
 import Modal from "@/components/modal/Modal";
 import ModalForm from "@/components/modal/ModalForm";
 import ModalFormDelete from "@/components/modal/ModalFormDelete";
-import { Brand } from "@/types/brand";
+import { Manufacturer } from "@/types/manufacturer";
 import { signOut } from "next-auth/react";
 import { FormEventHandler, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
 interface BrandProps {
-  brand: Brand;
+  manufacturer: Manufacturer;
   setRefresh: any;
   token: string;
 }
-const List: React.FC<BrandProps> = ({ brand, setRefresh, token }) => {
+const List: React.FC<BrandProps> = ({ manufacturer, setRefresh, token }) => {
   const url = process.env.NEXT_PUBLIC_API_URL;
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
-  const [brandEdit, setBrandEdit] = useState<string>(brand.name);
-  const [brandDelete, setBrandDelete] = useState<string>(brand.name);
+  const [brandEdit, setBrandEdit] = useState<string>(manufacturer.name);
+  const [brandDelete, setBrandDelete] = useState<string>(manufacturer.name);
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (brandEdit !== "") {
-      const res = await fetch(`${url}/brands/${brand.id}`, {
+      const res = await fetch(`${url}/manufacturers/${manufacturer.id}`, {
         cache: "no-store",
         method: "PATCH",
         headers: {
@@ -43,12 +43,12 @@ const List: React.FC<BrandProps> = ({ brand, setRefresh, token }) => {
     }
     setBrandEdit("");
     setOpenModalEdit(false);
-    toast.success("Brand updated successfully");
+    toast.success("Manufacturer updated successfully");
     setRefresh(true);
   };
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${url}/brands/${brand.id}`, {
+    const res = await fetch(`${url}/manufacturers/${manufacturer.id}`, {
       cache: "no-store",
       method: "DELETE",
       headers: {
@@ -64,13 +64,13 @@ const List: React.FC<BrandProps> = ({ brand, setRefresh, token }) => {
     }
     setBrandDelete("");
     setOpenModalDelete(false);
-    toast.success("Brand deleted successfully");
+    toast.success("Manufacturer deleted successfully");
     setRefresh(true);
   };
 
   return (
-    <Row key={brand.id}>
-      <Col style={"w-full"}>{brand.name}</Col>
+    <Row key={manufacturer.id}>
+      <Col style={"w-full"}>{manufacturer.name}</Col>
       <Col style={"flex gap-5"}>
         <FiEdit
           onClick={() => setOpenModalEdit(true)}
@@ -79,7 +79,7 @@ const List: React.FC<BrandProps> = ({ brand, setRefresh, token }) => {
           cursor="pointer"
         />
         <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit}>
-          <ModalForm handleSubmit={handleSubmit} title={"Edit Brand"}>
+          <ModalForm handleSubmit={handleSubmit} title={"Edit Manufacturer"}>
             <TextInput
               label={"Name"}
               name={"name"}
@@ -103,9 +103,9 @@ const List: React.FC<BrandProps> = ({ brand, setRefresh, token }) => {
         />
         <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete}>
           <ModalFormDelete
-            label={"brand"}
+            label={"manufacturer"}
             handleDelete={handleDelete}
-            title={"Delete Brand"}
+            title={"Delete Manufacturer"}
             itemDelete={brandDelete}
           />
         </Modal>

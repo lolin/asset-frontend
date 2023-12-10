@@ -134,7 +134,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
               </li>
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === "/" || pathname.includes("brands")
+                  pathname === "/" || pathname.includes("manufacturers")
                 }
               >
                 {(handleClick, open) => {
@@ -172,11 +172,11 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
                         <ul className="mt-4 mb-4 flex flex-col gap-2.5 pl-6">
                           <li>
                             <SidebarLink
-                              url="/brands"
+                              url="/manufacturers"
                               pathname={pathname}
                               style={""}
                             >
-                              Brands
+                              Manufacturers
                             </SidebarLink>
                           </li>
                           <li>
