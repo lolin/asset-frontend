@@ -16,7 +16,7 @@ export default function Company() {
   const [keyword, setKeyword] = useState("");
   const [totalPage, setTotalPage] = useState(0);
   const [totalData, setTotalData] = useState(0);
-  const [categories, setCompany] = useState([]);
+  const [companies, setCompany] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
   const [token, setToken] = useState("");
@@ -80,7 +80,7 @@ export default function Company() {
       </div>
       <CompanyTable
         token={token}
-        categories={categories}
+        companies={companies}
         page={page}
         setPage={setPage}
         limit={limit}

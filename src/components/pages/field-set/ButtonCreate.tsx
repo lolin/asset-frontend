@@ -19,7 +19,7 @@ const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (newTaskValue !== "") {
-      const res = await fetch(`${url}/company`, {
+      const res = await fetch(`${url}/field-sets`, {
         cache: "no-store",
         method: "POST",
         headers: {
@@ -36,7 +36,7 @@ const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
         }
         throw new Error("Failed to fetch data");
       }
-      toast.success("Company added successfully");
+      toast.success("Field set added successfully");
       setRefresh(true);
     }
     setNewTaskValue("");
@@ -52,7 +52,7 @@ const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
         <AiOutlinePlus size={20} />
       </button>
       <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
-        <ModalForm handleSubmit={handleSubmit} title={"Add new company"}>
+        <ModalForm handleSubmit={handleSubmit} title={"Add new field set"}>
           <TextInput
             label={"Name"}
             name={"name"}

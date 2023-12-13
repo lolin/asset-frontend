@@ -10,7 +10,13 @@ const Select = ({ ...props }: Props) => {
       required={props.required || false}
       value={props.inputValue}
       className={`select select-bordered w-full p-2.5  ${props.style || ""}`}
-      onChange={(e) => props.setValue(Number(e.target.value))}
+      onChange={(e) =>
+        props.setValue(
+          props.valueType === "string"
+            ? String(e.target.value)
+            : Number(e.target.value)
+        )
+      }
     >
       {props.children}
     </select>

@@ -37,27 +37,29 @@ const PaginationComponent: React.FC<PaginationProps> = ({
       <span className="text-xs xs:text-sm text-gray-900">
         Showing {first} to {last} of {totalData} Entries
       </span>
-      <div className="inline-flex mt-2 xs:mt-0">
-        <button
-          className={`text-sm text-indigo-50 transition duration-150 hover:bg-slate-600 bg-blue-950 font-semibold py-2 px-4 rounded-l ${
-            page === 1 && "opacity-50 cursor-not-allowed"
-          }`}
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-        >
-          Prev
-        </button>
-        &nbsp; &nbsp;
-        <button
-          className={`text-sm text-indigo-50 transition duration-150 hover:bg-slate-600 bg-blue-950 font-semibold py-2 px-4 rounded-r ${
-            page === totalPage && "opacity-50 cursor-not-allowed"
-          }`}
-          disabled={page === totalPage}
-          onClick={() => setPage(page + 1)}
-        >
-          Next
-        </button>
-      </div>
+      {page > 1 && (
+        <div className="inline-flex mt-2 xs:mt-0">
+          <button
+            className={`text-sm text-indigo-50 transition duration-150 hover:bg-slate-600 bg-blue-950 font-semibold py-2 px-4 rounded-l ${
+              page === 1 && "opacity-50 cursor-not-allowed"
+            }`}
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+          >
+            Prev
+          </button>
+          &nbsp; &nbsp;
+          <button
+            className={`text-sm text-indigo-50 transition duration-150 hover:bg-slate-600 bg-blue-950 font-semibold py-2 px-4 rounded-r ${
+              page === totalPage && "opacity-50 cursor-not-allowed"
+            }`}
+            disabled={page === totalPage}
+            onClick={() => setPage(page + 1)}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };

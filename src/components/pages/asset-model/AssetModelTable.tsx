@@ -1,12 +1,20 @@
-import { Company } from "@/types/company";
-import List from "./CompanyList";
+import { AssetModel } from "@/types/asset-model";
+import List from "./AssetModelList";
 import { useEffect } from "react";
 import { Puff } from "react-loading-icons";
 import PaginationComponent from "@/components/utility/PaginationComponent";
 import THead from "@/components/elements/THead";
+import { FieldSet } from "@/types/field-set";
+import { Manufacturer } from "@/types/manufacturer";
+import { Category } from "@/types/category";
+import { Depreciation } from "@/types/depreciation";
 
-interface CompanyProps {
-  companies: Company[];
+interface AssetModelProps {
+  assetmodels: AssetModel[];
+  fieldsets: FieldSet[];
+  manufacturers: Manufacturer[];
+  categories: Category[];
+  depreciations: Depreciation[];
   page: number;
   setPage: any;
   limit: number;
@@ -18,9 +26,13 @@ interface CompanyProps {
   token: string;
 }
 
-const CompanyTable: React.FC<CompanyProps> = ({
+const AssetModelTable: React.FC<AssetModelProps> = ({
   token,
-  companies,
+  assetmodels,
+  fieldsets,
+  manufacturers,
+  categories,
+  depreciations,
   page,
   setPage,
   limit,
@@ -31,10 +43,10 @@ const CompanyTable: React.FC<CompanyProps> = ({
   setRefresh,
 }) => {
   useEffect(() => {
-    if (companies.length > 0) {
+    if (assetmodels.length > 0) {
       setLoading(false);
     }
-  }, [loading, setLoading, companies.length]);
+  }, [loading, setLoading, assetmodels.length]);
   return (
     <div>
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -42,14 +54,19 @@ const CompanyTable: React.FC<CompanyProps> = ({
           <table className="min-w-full leading-normal">
             <thead>
               <tr>
-                <THead>Name</THead>
+                <THead>Model Name</THead>
+                <THead>Model No.</THead>
+                <THead>Manufacturer</THead>
+                <THead>Category</THead>
+                <THead>EOL</THead>
+                <THead>Field Set</THead>
                 <THead>Action</THead>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={2} className=" p-4">
+                  <td colSpan={7} className=" p-4">
                     <Puff
                       stroke="#1C64F2"
                       fill="#1C64F2"
@@ -59,18 +76,22 @@ const CompanyTable: React.FC<CompanyProps> = ({
                     />
                   </td>
                 </tr>
-              ) : companies.length > 0 ? (
-                companies.map((company: any) => (
+              ) : assetmodels.length > 0 ? (
+                assetmodels.map((assetModel: any) => (
                   <List
-                    key={company.id}
-                    company={company}
+                    key={assetModel.id}
+                    assetModel={assetModel}
+                    fieldSets={fieldsets}
+                    manufacturers={manufacturers}
+                    categories={categories}
+                    depreciations={depreciations}
                     setRefresh={setRefresh}
                     token={token}
                   />
                 ))
               ) : (
                 <tr>
-                  <td colSpan={2} className="text-center p-4">
+                  <td colSpan={7} className="text-center p-4">
                     No data found
                   </td>
                 </tr>
@@ -89,4 +110,4 @@ const CompanyTable: React.FC<CompanyProps> = ({
     </div>
   );
 };
-export default CompanyTable;
+export default AssetModelTable;

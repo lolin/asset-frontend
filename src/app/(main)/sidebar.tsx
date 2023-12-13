@@ -155,7 +155,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
                         }}
                       >
                         <CgListTree size={22} />
-                        Utility
+                        Asset Utility
                         <IoIosArrowDown
                           size={18}
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
@@ -172,13 +172,14 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
                         <ul className="mt-4 mb-4 flex flex-col gap-2.5 pl-6">
                           <li>
                             <SidebarLink
-                              url="/manufacturers"
+                              url="/asset-models"
                               pathname={pathname}
                               style={""}
                             >
-                              Manufacturers
+                              Asset Model
                             </SidebarLink>
                           </li>
+
                           <li>
                             <SidebarLink
                               url="/categories"
@@ -190,11 +191,20 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
                           </li>
                           <li>
                             <SidebarLink
-                              url="/companies"
+                              url="/field-sets"
                               pathname={pathname}
                               style={""}
                             >
-                              Company
+                              Fied Set
+                            </SidebarLink>
+                          </li>
+                          <li>
+                            <SidebarLink
+                              url="/custom-fields"
+                              pathname={pathname}
+                              style={""}
+                            >
+                              Custom Field
                             </SidebarLink>
                           </li>
                           <li>
@@ -208,15 +218,6 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
                           </li>
                           <li>
                             <SidebarLink
-                              url="/departments"
-                              pathname={pathname}
-                              style={""}
-                            >
-                              Department
-                            </SidebarLink>
-                          </li>
-                          <li>
-                            <SidebarLink
                               url="/depreciations"
                               pathname={pathname}
                               style={""}
@@ -226,11 +227,83 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
                           </li>
                           <li>
                             <SidebarLink
+                              url="/manufacturers"
+                              pathname={pathname}
+                              style={""}
+                            >
+                              Manufacturer
+                            </SidebarLink>
+                          </li>
+                          <li>
+                            <SidebarLink
                               url="/vendors"
                               pathname={pathname}
                               style={""}
                             >
                               Vendor
+                            </SidebarLink>
+                          </li>
+                        </ul>
+                      </div>
+                      {/* <!-- Dropdown Menu End --> */}
+                    </React.Fragment>
+                  );
+                }}
+              </SidebarLinkGroup>
+              <SidebarLinkGroup
+                activeCondition={
+                  pathname === "/" || pathname.includes("manufacturers")
+                }
+              >
+                {(handleClick, open) => {
+                  return (
+                    <React.Fragment>
+                      <Link
+                        href="#"
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-100 duration-300 ease-in-out hover:bg-gray-700 dark:hover:bg-gray-700 ${
+                          (pathname === "/utility" ||
+                            pathname.includes("utility")) &&
+                          "bg-gray-800 dark:bg-grey-700"
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          sidebarExpanded
+                            ? handleClick()
+                            : setSidebarExpanded(true);
+                        }}
+                      >
+                        <CgListTree size={22} />
+                        Comapany Utility
+                        <IoIosArrowDown
+                          size={18}
+                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
+                            open && "rotate-180"
+                          }`}
+                        />
+                      </Link>
+                      {/* <!-- Dropdown Menu Start --> */}
+                      <div
+                        className={`translate transform overflow-hidden ${
+                          !open && "hidden"
+                        }`}
+                      >
+                        <ul className="mt-4 mb-4 flex flex-col gap-2.5 pl-6">
+                          <li>
+                            <SidebarLink
+                              url="/companies"
+                              pathname={pathname}
+                              style={""}
+                            >
+                              Company
+                            </SidebarLink>
+                          </li>
+                          <li>
+                            <SidebarLink
+                              url="/departments"
+                              pathname={pathname}
+                              style={""}
+                            >
+                              Department
                             </SidebarLink>
                           </li>
                         </ul>

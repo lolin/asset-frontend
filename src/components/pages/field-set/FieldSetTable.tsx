@@ -1,12 +1,12 @@
-import { Company } from "@/types/company";
-import List from "./CompanyList";
+import { FieldSet } from "@/types/field-set";
+import List from "./FieldSetList";
 import { useEffect } from "react";
 import { Puff } from "react-loading-icons";
 import PaginationComponent from "@/components/utility/PaginationComponent";
 import THead from "@/components/elements/THead";
 
-interface CompanyProps {
-  companies: Company[];
+interface FieldSetProps {
+  fieldsets: FieldSet[];
   page: number;
   setPage: any;
   limit: number;
@@ -18,9 +18,9 @@ interface CompanyProps {
   token: string;
 }
 
-const CompanyTable: React.FC<CompanyProps> = ({
+const FieldSetTable: React.FC<FieldSetProps> = ({
   token,
-  companies,
+  fieldsets,
   page,
   setPage,
   limit,
@@ -31,10 +31,10 @@ const CompanyTable: React.FC<CompanyProps> = ({
   setRefresh,
 }) => {
   useEffect(() => {
-    if (companies.length > 0) {
+    if (fieldsets.length > 0) {
       setLoading(false);
     }
-  }, [loading, setLoading, companies.length]);
+  }, [loading, setLoading, fieldsets.length]);
   return (
     <div>
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -59,11 +59,11 @@ const CompanyTable: React.FC<CompanyProps> = ({
                     />
                   </td>
                 </tr>
-              ) : companies.length > 0 ? (
-                companies.map((company: any) => (
+              ) : fieldsets.length > 0 ? (
+                fieldsets.map((fieldset: any) => (
                   <List
-                    key={company.id}
-                    company={company}
+                    key={fieldset.id}
+                    fieldset={fieldset}
                     setRefresh={setRefresh}
                     token={token}
                   />
@@ -89,4 +89,4 @@ const CompanyTable: React.FC<CompanyProps> = ({
     </div>
   );
 };
-export default CompanyTable;
+export default FieldSetTable;

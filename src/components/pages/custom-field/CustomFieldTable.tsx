@@ -1,12 +1,14 @@
-import { Company } from "@/types/company";
-import List from "./CompanyList";
+import { CustomField } from "@/types/custom-field";
+import List from "./CustomFieldList";
 import { useEffect } from "react";
 import { Puff } from "react-loading-icons";
 import PaginationComponent from "@/components/utility/PaginationComponent";
 import THead from "@/components/elements/THead";
+import { FieldSet } from "@/types/field-set";
 
-interface CompanyProps {
-  companies: Company[];
+interface CustomFieldProps {
+  customfields: CustomField[];
+  fieldsets: FieldSet[];
   page: number;
   setPage: any;
   limit: number;
@@ -18,9 +20,10 @@ interface CompanyProps {
   token: string;
 }
 
-const CompanyTable: React.FC<CompanyProps> = ({
+const CustomFieldTable: React.FC<CustomFieldProps> = ({
   token,
-  companies,
+  customfields,
+  fieldsets,
   page,
   setPage,
   limit,
@@ -31,10 +34,10 @@ const CompanyTable: React.FC<CompanyProps> = ({
   setRefresh,
 }) => {
   useEffect(() => {
-    if (companies.length > 0) {
+    if (customfields.length > 0) {
       setLoading(false);
     }
-  }, [loading, setLoading, companies.length]);
+  }, [loading, setLoading, customfields.length]);
   return (
     <div>
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -43,13 +46,17 @@ const CompanyTable: React.FC<CompanyProps> = ({
             <thead>
               <tr>
                 <THead>Name</THead>
+                <THead>Field Set</THead>
+                <THead>Element</THead>
+                <THead>Element Value</THead>
+                <THead>Helper Text</THead>
                 <THead>Action</THead>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={2} className=" p-4">
+                  <td colSpan={6} className=" p-4">
                     <Puff
                       stroke="#1C64F2"
                       fill="#1C64F2"
@@ -59,18 +66,19 @@ const CompanyTable: React.FC<CompanyProps> = ({
                     />
                   </td>
                 </tr>
-              ) : companies.length > 0 ? (
-                companies.map((company: any) => (
+              ) : customfields.length > 0 ? (
+                customfields.map((customField: any) => (
                   <List
-                    key={company.id}
-                    company={company}
+                    key={customField.id}
+                    customField={customField}
+                    fieldSets={fieldsets}
                     setRefresh={setRefresh}
                     token={token}
                   />
                 ))
               ) : (
                 <tr>
-                  <td colSpan={2} className="text-center p-4">
+                  <td colSpan={6} className="text-center p-4">
                     No data found
                   </td>
                 </tr>
@@ -89,4 +97,4 @@ const CompanyTable: React.FC<CompanyProps> = ({
     </div>
   );
 };
-export default CompanyTable;
+export default CustomFieldTable;

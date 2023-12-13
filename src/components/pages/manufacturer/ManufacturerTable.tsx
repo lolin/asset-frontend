@@ -6,7 +6,7 @@ import PaginationComponent from "@/components/utility/PaginationComponent";
 import THead from "@/components/elements/THead";
 
 interface BrandProps {
-  categories: Manufacturer[];
+  manufacturers: Manufacturer[];
   page: number;
   setPage: any;
   limit: number;
@@ -20,7 +20,7 @@ interface BrandProps {
 
 const BrandTable: React.FC<BrandProps> = ({
   token,
-  categories,
+  manufacturers,
   page,
   setPage,
   limit,
@@ -31,10 +31,10 @@ const BrandTable: React.FC<BrandProps> = ({
   setRefresh,
 }) => {
   useEffect(() => {
-    if (categories.length > 0) {
+    if (manufacturers.length > 0) {
       setLoading(false);
     }
-  }, [loading, setLoading, categories.length]);
+  }, [loading, setLoading, manufacturers.length]);
   return (
     <div>
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -59,8 +59,8 @@ const BrandTable: React.FC<BrandProps> = ({
                     />
                   </td>
                 </tr>
-              ) : categories.length > 0 ? (
-                categories.map((manufacturer: any) => (
+              ) : manufacturers.length > 0 ? (
+                manufacturers.map((manufacturer: any) => (
                   <List
                     key={manufacturer.id}
                     manufacturer={manufacturer}

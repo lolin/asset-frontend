@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import ButtonCreate from "@/components/pages/manufacturer/ButtonCreate";
-import BrandTable from "@/components/pages/manufacturer/ManufacturerTable";
+import ManufacturerTable from "@/components/pages/manufacturer/ManufacturerTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HeaderCompnent from "@/components/utility/HeaderComponent";
@@ -16,13 +16,13 @@ export default function Manufacturer() {
   const [keyword, setKeyword] = useState("");
   const [totalPage, setTotalPage] = useState(0);
   const [totalData, setTotalData] = useState(0);
-  const [categories, setBrand] = useState([]);
+  const [manufacturers, setManufacturer] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
   const [token, setToken] = useState("");
   const accessToken = session.data?.user.accessToken || "";
 
-  const getBrand = useCallback(async () => {
+  const getManufacturer = useCallback(async () => {
     try {
       const res = await fetch(
         `${url}/manufacturers?key=${keyword}&page=${page}&limit=${limit}`,
@@ -46,7 +46,7 @@ export default function Manufacturer() {
         throw new Error("Failed to fetch data");
       }
       const data = await res.json();
-      setBrand(data.data);
+      setManufacturer(data.data);
       setLimit(data.limit);
       setTotalPage(data.totalPage);
       setTotalData(data.totalRows);
@@ -63,13 +63,13 @@ export default function Manufacturer() {
   }
 
   useEffect(() => {
-    setBrand([]);
+    setManufacturer([]);
     if (accessToken) {
       setToken(accessToken);
-      getBrand();
+      getManufacturer();
       setRefresh(false);
     }
-  }, [page, keyword, getBrand, refresh, accessToken]);
+  }, [page, keyword, getManufacturer, refresh, accessToken]);
   return (
     <div className="bg-white p-8 rounded-md w-full shadow-xl">
       <div className=" mb-1 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -85,9 +85,9 @@ export default function Manufacturer() {
           <ButtonCreate setRefresh={setRefresh} token={token} />
         </div>
       </div>
-      <BrandTable
+      <ManufacturerTable
         token={token}
-        categories={categories}
+        manufacturers={manufacturers}
         page={page}
         setPage={setPage}
         limit={limit}
