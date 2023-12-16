@@ -11,7 +11,7 @@ const SelectOption = ({ ...props }: Props) => {
         name={props.name}
         required={props.required}
         inputValue={props.inputValue}
-        setValue={props.setValue}
+        setValue={props.setValue || null}
         style={props.style || ""}
       >
         {props.children}

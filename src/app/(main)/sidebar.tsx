@@ -179,7 +179,24 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
                               Asset Model
                             </SidebarLink>
                           </li>
-
+                          <li>
+                            <SidebarLink
+                              url="/asset-type"
+                              pathname={pathname}
+                              style={""}
+                            >
+                              Asset Type
+                            </SidebarLink>
+                          </li>
+                          <li>
+                            <SidebarLink
+                              url="/asset-status"
+                              pathname={pathname}
+                              style={""}
+                            >
+                              Asset Status
+                            </SidebarLink>
+                          </li>
                           <li>
                             <SidebarLink
                               url="/categories"

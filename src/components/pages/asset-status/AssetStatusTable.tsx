@@ -1,14 +1,12 @@
-import { Category } from "@/types/category";
-import List from "./CategoryList";
+import { AssetStatus } from "@/types/asset-status";
+import List from "./AssetStatusList";
 import { useEffect } from "react";
 import { Puff } from "react-loading-icons";
 import PaginationComponent from "@/components/utility/PaginationComponent";
 import THead from "@/components/elements/THead";
-import { AssetType } from "@/types/asset-type";
 
-interface CategoryProps {
-  categories: Category[];
-  assetTypes: AssetType[];
+interface AssetStatusProps {
+  companies: AssetStatus[];
   page: number;
   setPage: any;
   limit: number;
@@ -20,10 +18,9 @@ interface CategoryProps {
   token: string;
 }
 
-const CategoryTable: React.FC<CategoryProps> = ({
+const AssetStatusTable: React.FC<AssetStatusProps> = ({
   token,
-  categories,
-  assetTypes,
+  companies,
   page,
   setPage,
   limit,
@@ -34,10 +31,10 @@ const CategoryTable: React.FC<CategoryProps> = ({
   setRefresh,
 }) => {
   useEffect(() => {
-    if (categories.length > 0) {
+    if (companies.length > 0) {
       setLoading(false);
     }
-  }, [loading, setLoading, categories.length]);
+  }, [loading, setLoading, companies.length]);
   return (
     <div>
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -46,7 +43,7 @@ const CategoryTable: React.FC<CategoryProps> = ({
             <thead>
               <tr>
                 <THead>Name</THead>
-                <THead>Asset Type</THead>
+                <THead>Description</THead>
                 <THead>Action</THead>
               </tr>
             </thead>
@@ -63,12 +60,11 @@ const CategoryTable: React.FC<CategoryProps> = ({
                     />
                   </td>
                 </tr>
-              ) : categories.length > 0 ? (
-                categories.map((category: any) => (
+              ) : companies.length > 0 ? (
+                companies.map((assetStatus: any) => (
                   <List
-                    key={category.id}
-                    category={category}
-                    assetTypes={assetTypes}
+                    key={assetStatus.id}
+                    assetStatus={assetStatus}
                     setRefresh={setRefresh}
                     token={token}
                   />
@@ -94,4 +90,4 @@ const CategoryTable: React.FC<CategoryProps> = ({
     </div>
   );
 };
-export default CategoryTable;
+export default AssetStatusTable;

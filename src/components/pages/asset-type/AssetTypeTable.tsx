@@ -1,14 +1,12 @@
-import { Category } from "@/types/category";
-import List from "./CategoryList";
+import { AssetType } from "@/types/asset-type";
+import List from "./AssetTypeList";
 import { useEffect } from "react";
 import { Puff } from "react-loading-icons";
 import PaginationComponent from "@/components/utility/PaginationComponent";
 import THead from "@/components/elements/THead";
-import { AssetType } from "@/types/asset-type";
 
-interface CategoryProps {
-  categories: Category[];
-  assetTypes: AssetType[];
+interface AssetTypeProps {
+  companies: AssetType[];
   page: number;
   setPage: any;
   limit: number;
@@ -20,10 +18,9 @@ interface CategoryProps {
   token: string;
 }
 
-const CategoryTable: React.FC<CategoryProps> = ({
+const AssetTypeTable: React.FC<AssetTypeProps> = ({
   token,
-  categories,
-  assetTypes,
+  companies,
   page,
   setPage,
   limit,
@@ -34,10 +31,10 @@ const CategoryTable: React.FC<CategoryProps> = ({
   setRefresh,
 }) => {
   useEffect(() => {
-    if (categories.length > 0) {
+    if (companies.length > 0) {
       setLoading(false);
     }
-  }, [loading, setLoading, categories.length]);
+  }, [loading, setLoading, companies.length]);
   return (
     <div>
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -46,14 +43,14 @@ const CategoryTable: React.FC<CategoryProps> = ({
             <thead>
               <tr>
                 <THead>Name</THead>
-                <THead>Asset Type</THead>
+                <THead>Description</THead>
                 <THead>Action</THead>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={3} className=" p-4">
+                  <td colSpan={2} className=" p-4">
                     <Puff
                       stroke="#1C64F2"
                       fill="#1C64F2"
@@ -63,19 +60,18 @@ const CategoryTable: React.FC<CategoryProps> = ({
                     />
                   </td>
                 </tr>
-              ) : categories.length > 0 ? (
-                categories.map((category: any) => (
+              ) : companies.length > 0 ? (
+                companies.map((assetType: any) => (
                   <List
-                    key={category.id}
-                    category={category}
-                    assetTypes={assetTypes}
+                    key={assetType.id}
+                    assetType={assetType}
                     setRefresh={setRefresh}
                     token={token}
                   />
                 ))
               ) : (
                 <tr>
-                  <td colSpan={3} className="text-center p-4">
+                  <td colSpan={2} className="text-center p-4">
                     No data found
                   </td>
                 </tr>
@@ -94,4 +90,4 @@ const CategoryTable: React.FC<CategoryProps> = ({
     </div>
   );
 };
-export default CategoryTable;
+export default AssetTypeTable;

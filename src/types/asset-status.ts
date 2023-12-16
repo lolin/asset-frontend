@@ -1,11 +1,7 @@
-export interface Category {
+export interface AssetStatus {
   id: number;
   name: string;
-  assetTypeId: number;
-  AssetType: {
-    id: number;
-    name: string;
-  };
+  description: string;
   isActive: boolean;
   createdBy: string;
   modifiedBy: string;

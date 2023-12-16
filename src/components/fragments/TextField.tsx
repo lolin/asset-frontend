@@ -15,6 +15,7 @@ const TextField = ({ ...props }: Props) => {
         type={props.type || "text"}
         placeholder={props.placeholder || ""}
         style={props.style || ""}
+        readOnly={props.readOnly || false}
       />
     </div>
   );

@@ -13,6 +13,7 @@ const TextInput = ({ ...props }: Props) => {
       type={props.type || "text"}
       placeholder={props.placeholder || ""}
       className={`input input-bordered w-full max-ful ${props.style || ""}`}
+      readOnly={props.readOnly || false}
     />
   );
 };

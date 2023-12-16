@@ -171,7 +171,7 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
       }
 
       toast.success("Asset added successfully");
-      router.push("/assets");
+      router.push("/asset-models");
     }
   };
 

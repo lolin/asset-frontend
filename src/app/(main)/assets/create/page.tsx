@@ -11,12 +11,7 @@ export default function CreateAsset() {
       <div className=" flex items-center justify-between pb-6">
         <HeaderCompnent title="Add New Asset" subTitle="Add new asset" />
         <div className="flex items-center justify-between">
-          <Button
-            onClick={() => router.back()}
-            style={
-              "text-indigo-500 bg-indigo-50 border border-indigo-300 hover:bg-indigo-100 float-right"
-            }
-          >
+          <Button onClick={() => router.back()} style={""}>
             <IoArrowBackCircle size={20} />
             Back
           </Button>

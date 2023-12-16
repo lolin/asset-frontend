@@ -2,7 +2,7 @@ type Props = {
   [key: string]: any;
 };
 
-const Select = ({ ...props }: Props) => {
+const SelectCustom = ({ ...props }: Props) => {
   return (
     <select
       id={props.name}
@@ -24,4 +24,4 @@ const Select = ({ ...props }: Props) => {
   );
 };
 
-export default Select;
+export default SelectCustom;
