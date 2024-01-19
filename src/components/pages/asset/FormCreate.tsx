@@ -144,13 +144,11 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
     const method = "POST";
     const body = {
       name: assetName,
-      categoryId: assetCategoryId,
       departmentId: assetDepartmentId,
-      brandId: assetBrandId,
-      vendorId: assetVendorId,
-      conditionId: assetStatusId,
       model: assetModel,
       serialNumber: assetSerialNumber,
+      vendorId: assetVendorId,
+      assetStatusId: assetStatusId,
       macAddress: assetMacAddress,
       ipAddress: assetIpAddress,
       price: assetPrice,
@@ -219,9 +217,6 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
     }
     setInputFields(initialData);
   }, [customFields]);
-
-  console.log(customFields);
-  console.log(inputFields);
   return (
     <div>
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">

@@ -26,6 +26,7 @@ async function fetchData({ url, method, body }: Props) {
   }
   let data = null;
   method === "DELETE" ? data : (data = await res.json());
+  console.log(data);
   return data;
 }
 export default fetchData;

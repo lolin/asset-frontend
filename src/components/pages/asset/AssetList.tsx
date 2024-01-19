@@ -89,8 +89,9 @@ const List: React.FC<AssetProps> = ({ asset, setRefresh }) => {
   return (
     <Row key={asset.id}>
       <Col style={"w-1/5"}>{asset.name}</Col>
-      <Col style={"w-1/5"}>{asset.Category.name}</Col>
-      <Col style={"w-1/5"}>{asset.Manufacturer.name}</Col>
+      <Col style={"w-1/5"}>{asset.AssetModel.Category.name}</Col>
+      <Col style={"w-1/5"}>{asset.AssetModel.modelNumber}</Col>
+      <Col style={"w-1/5"}>{asset.AssetModel.name}</Col>
       <Col style={"w-1/5"}>{asset.Department.name}</Col>
       <Col style={"w-1/5"}>
         {asset.purchaseDate

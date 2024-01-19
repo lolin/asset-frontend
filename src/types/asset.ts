@@ -11,6 +11,15 @@ export interface Asset {
     id: number;
     name: string;
   };
+  AssetModel: {
+    id: number;
+    name: string;
+    modelNumber: string;
+    Category: {
+      id: number;
+      name: string;
+    };
+  };
   brandId: number;
   Manufacturer: {
     id: number;

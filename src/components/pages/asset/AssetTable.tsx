@@ -45,7 +45,8 @@ const AssetTable: React.FC<AssetProps> = ({
               <tr>
                 <THead>Asset</THead>
                 <THead>Category</THead>
-                <THead>Manufacturer</THead>
+                <THead>Model Number</THead>
+                <THead>Model Name</THead>
                 <THead>Department</THead>
                 <THead>Purchase Date</THead>
                 <THead>Action</THead>
