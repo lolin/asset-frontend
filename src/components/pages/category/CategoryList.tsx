@@ -12,21 +12,17 @@ import { Category } from "@/types/category";
 import { FormEventHandler, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
-// import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import fetchData from "@/util/fetchWrapper";
 interface CategoryProps {
   category: Category;
   assetTypes: AssetType[];
   setRefresh: any;
-  token: string;
 }
 const List: React.FC<CategoryProps> = ({
   category,
   assetTypes,
   setRefresh,
-  token,
 }) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [categoryEdit, setCategoryEdit] = useState<string>(category.name);
@@ -37,15 +33,10 @@ const List: React.FC<CategoryProps> = ({
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (categoryEdit !== "") {
-      await fetch(`${url}/category/${category.id}`, {
-        cache: "no-store",
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name: categoryEdit }),
-      });
+      const url = `category/${category.id}`;
+      const method = "PATCH";
+      const body = { name: categoryEdit };
+      await fetchData({ url, method, body });
     }
     setCategoryEdit("");
     setOpenModalEdit(false);
@@ -54,14 +45,10 @@ const List: React.FC<CategoryProps> = ({
   };
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    await fetch(`${url}/category/${category.id}`, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const url = `category/${category.id}`;
+    const method = "DELETE";
+    const body = "";
+    await fetchData({ url, method, body });
     setCategoryDelete("");
     setOpenModalDelete(false);
     toast.success("Category deleted successfully");

@@ -7,10 +7,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HeaderCompnent from "@/components/utility/HeaderComponent";
 import SearchComponent from "@/components/utility/SearchComponent";
-
+import fetchData from "@/util/fetchWrapper";
 export default function FieldSet() {
-  const session = useSession();
-  const url = process.env.NEXT_PUBLIC_API_URL;
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [keyword, setKeyword] = useState("");
@@ -19,38 +17,22 @@ export default function FieldSet() {
   const [fieldsets, setFieldSet] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
-  const [token, setToken] = useState("");
-  const accessToken = session.data?.user.accessToken || "";
 
   const getFieldSet = useCallback(async () => {
+    const url = `field-sets?key=${keyword}&page=${page}&limit=${limit}`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/field-sets?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setFieldSet(data.data);
-      setLimit(data.limit);
-      setTotalPage(data.totalPage);
-      setTotalData(data.totalRows);
+      const res = await fetchData({ url, method, body });
+      setFieldSet(res.payload.data);
+      setLimit(res.pagination.limit);
+      setTotalPage(res.pagination.total_page);
+      setTotalData(res.pagination.total_rows);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, keyword, limit, page, url]);
+  }, [keyword, limit, page]);
   async function searchFieldSet(e: any) {
     e.preventDefault();
     setPage(1);
@@ -60,12 +42,9 @@ export default function FieldSet() {
 
   useEffect(() => {
     setFieldSet([]);
-    if (accessToken) {
-      setToken(accessToken);
-      getFieldSet();
-      setRefresh(false);
-    }
-  }, [page, keyword, getFieldSet, refresh, accessToken]);
+    getFieldSet();
+    setRefresh(false);
+  }, [getFieldSet, refresh]);
   return (
     <div className="bg-white p-8 rounded-md w-full shadow-xl">
       <div className=" mb-1 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -75,11 +54,10 @@ export default function FieldSet() {
             searchData={searchFieldSet}
             placeholder="Search field-set"
           />
-          <ButtonCreate setRefresh={setRefresh} token={token} />
+          <ButtonCreate setRefresh={setRefresh} />
         </div>
       </div>
       <FieldSetTable
-        token={token}
         fieldsets={fieldsets}
         page={page}
         setPage={setPage}

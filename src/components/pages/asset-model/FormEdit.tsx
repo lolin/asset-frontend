@@ -1,15 +1,14 @@
 import Button from "@/components/elements/Button";
-import Label from "@/components/elements/Label";
 import SelectOption from "@/components/fragments/SelectOption";
-import TextArea from "@/components/fragments/TextArea";
 import TextField from "@/components/fragments/TextField";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormEventHandler, useCallback, useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Puff } from "react-loading-icons";
 import { toast } from "react-toastify";
+import fetchData from "@/util/fetchWrapper";
+
 type Props = {
   [key: string]: any;
 };
@@ -17,8 +16,6 @@ const FormEdit = (props: { params: string }) => {
   const session = useSession();
   const router = useRouter();
   const param = props.params;
-  const url = process.env.NEXT_PUBLIC_API_URL;
-  const accessToken = session.data?.user.accessToken || "";
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(1000);
   const [keyword, setKeyword] = useState("");
@@ -27,7 +24,6 @@ const FormEdit = (props: { params: string }) => {
   const [manufacturers, setManufacturer] = useState([]);
   const [fieldSets, setFieldSet] = useState([]);
   const [depreciations, setDepreciation] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const [modelName, setModelName] = useState<string>("");
   const [modelCategoryId, setModelCategoryId] = useState<number>();
@@ -40,186 +36,101 @@ const FormEdit = (props: { params: string }) => {
   const [modelImageUrl, setModelImageUrl] = useState<string>("");
 
   const getAssetModel = useCallback(async () => {
+    const url = `asset-models/${param}`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(`${url}/asset-models/${param}`, {
-        cache: "no-store",
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      if (data.data !== null) {
-        setAssetModel(data.data);
-        setModelName(data.data.name);
-        setModelCategoryId(data.data.categoryId);
-        setModelManufacturerId(data.data.manufacturerId);
-        setModelNumber(data.data.modelNumber);
-        setModelDepreciationId(data.data.depreciationId);
-        setModelEol(data.data.eol);
-        setModelFieldSetId(data.data.fieldSetId);
-        setModelNote(data.data.notes);
-        setModelImageUrl(data.data.imageUrl);
+      const res = await fetchData({ url, method, body });
+      if (res.payload.data !== null) {
+        setAssetModel(res.payload.data);
+        setModelName(res.payload.data.name);
+        setModelCategoryId(res.payload.data.categoryId);
+        setModelManufacturerId(res.payload.data.manufacturerId);
+        setModelNumber(res.payload.data.modelNumber);
+        setModelDepreciationId(res.payload.data.depreciationId);
+        setModelEol(res.payload.data.eol);
+        setModelFieldSetId(res.payload.data.fieldSetId);
+        setModelNote(res.payload.data.notes);
+        setModelImageUrl(res.payload.data.imageUrl);
       }
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, param, url]);
+  }, [param]);
   const getCategories = useCallback(async () => {
+    const url = `category/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/category?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setCategory(data.data);
+      const res = await fetchData({ url, method, body });
+      setCategory(res.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, limit, page, url, keyword]);
+  }, []);
   const getManufacturers = useCallback(async () => {
+    const url = `manufacturers/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/manufacturers?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setManufacturer(data.data);
+      const res = await fetchData({ url, method, body });
+      setManufacturer(res.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, limit, page, url, keyword]);
+  }, []);
   const getFieldSet = useCallback(async () => {
+    const url = `field-sets/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/field-sets?key=${keyword}&page=${page}&limit=1000`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setFieldSet(data.data);
+      const res = await fetchData({ url, method, body });
+      setFieldSet(res.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, setFieldSet, keyword, page, url]);
+  }, []);
   const getDepreciation = useCallback(async () => {
+    const url = `depreciations/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/depreciations?key=${keyword}&page=${page}&limit=1000`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        toast.error("Failed to fetch data");
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setDepreciation(data.data);
+      const res = await fetchData({ url, method, body });
+      setDepreciation(res.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, keyword, page, url]);
+  }, []);
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    if (modelName !== "" && accessToken) {
-      const res = await fetch(`${url}/asset-models/${param}`, {
-        cache: "no-store",
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          name: modelName,
-          imageUrl: modelImageUrl,
-          modelNumber: modelNumber,
-          manufacturerId: modelManufacturerId,
-          categoryId: modelCategoryId,
-          fieldSetId: modelFieldSetId,
-          depreciationId: modelDepreciationId,
-          eol: modelEol,
-          notes: modelNote,
-        }),
-      });
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-          console.log(res);
-        }
-        throw new Error("Failed to fetch data");
-      }
-
+    const url = `asset-models/${param}`;
+    const method = "PATCH";
+    const body = {
+      name: modelName,
+      imageUrl: modelImageUrl,
+      modelNumber: modelNumber,
+      manufacturerId: modelManufacturerId,
+      categoryId: modelCategoryId,
+      fieldSetId: modelFieldSetId,
+      depreciationId: modelDepreciationId,
+      eol: modelEol,
+      notes: modelNote,
+    };
+    if (modelName !== "") {
+      await fetchData({ url, method, body });
       toast.success("Asset edit successfully");
       router.push("/asset-models");
     }
   };
 
   useEffect(() => {
-    if (accessToken) {
-      getAssetModel();
-      getCategories();
-      getManufacturers();
-      getFieldSet();
-      getDepreciation();
-    }
+    getAssetModel();
+    getCategories();
+    getManufacturers();
+    getFieldSet();
+    getDepreciation();
   }, [
-    accessToken,
     getAssetModel,
     getCategories,
     getManufacturers,
@@ -232,17 +143,21 @@ const FormEdit = (props: { params: string }) => {
         <div className="inline-block min-w-full shadow rounded-lg overflow-hidden border-t-2">
           <div className="m-5 text-gray-600">
             {loading ? (
-              <tr>
-                <td colSpan={5} className=" p-4">
-                  <Puff
-                    stroke="#1C64F2"
-                    fill="#1C64F2"
-                    width={70}
-                    height={70}
-                    className="m-0 p-0 content-center w-full"
-                  />
-                </td>
-              </tr>
+              <table>
+                <tbody>
+                  <tr>
+                    <td colSpan={5} className=" p-4">
+                      <Puff
+                        stroke="#1C64F2"
+                        fill="#1C64F2"
+                        width={70}
+                        height={70}
+                        className="m-0 p-0 content-center w-full"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             ) : modelName.length > 0 ? (
               <form
                 onSubmit={(e) => {
@@ -272,6 +187,7 @@ const FormEdit = (props: { params: string }) => {
                         required={true}
                         inputValue={modelCategoryId}
                         setValue={setModelCategoryId}
+                        valueType={"number"}
                         style={""}
                         divStyle="md:w-full mb-6 md:mb-0"
                       >
@@ -294,6 +210,7 @@ const FormEdit = (props: { params: string }) => {
                         required={true}
                         inputValue={modelManufacturerId}
                         setValue={setModelManufacturerId}
+                        valueType={"number"}
                         style={""}
                         divStyle="md:w-full mb-6 md:mb-0"
                       >
@@ -329,6 +246,7 @@ const FormEdit = (props: { params: string }) => {
                         required={true}
                         inputValue={modelDepreciationId}
                         setValue={setModelDepreciationId}
+                        valueType={"number"}
                         style={""}
                         divStyle="md:w-full mb-6 md:mb-0"
                       >
@@ -364,6 +282,7 @@ const FormEdit = (props: { params: string }) => {
                         required={true}
                         inputValue={modelFieldSetId}
                         setValue={setModelFieldSetId}
+                        valueType={"number"}
                         style={""}
                         divStyle="md:w-full mb-6 md:mb-0"
                       >

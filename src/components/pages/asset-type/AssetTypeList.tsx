@@ -11,13 +11,12 @@ import { signOut } from "next-auth/react";
 import { FormEventHandler, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
+import fetchData from "@/util/fetchWrapper";
 interface AssetTypeProps {
   assetType: AssetType;
   setRefresh: any;
-  token: string;
 }
-const List: React.FC<AssetTypeProps> = ({ assetType, setRefresh, token }) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
+const List: React.FC<AssetTypeProps> = ({ assetType, setRefresh }) => {
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [assetTypeEdit, setAssetTypeEdit] = useState<string>(assetType.name);
@@ -29,27 +28,13 @@ const List: React.FC<AssetTypeProps> = ({ assetType, setRefresh, token }) => {
   );
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    if (assetTypeEdit !== "") {
-      const res = await fetch(`${url}/asset-type/${assetType.id}`, {
-        cache: "no-store",
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: assetTypeEdit,
-          description: assetDescriptionEdit,
-        }),
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-    }
+    const url = `asset-type/${assetType.id}`;
+    const method = "PATCH";
+    const body = {
+      name: assetTypeEdit,
+      description: assetDescriptionEdit,
+    };
+    await fetchData({ url, method, body });
     setAssetTypeEdit("");
     setOpenModalEdit(false);
     toast.success("AssetType updated successfully");
@@ -57,20 +42,10 @@ const List: React.FC<AssetTypeProps> = ({ assetType, setRefresh, token }) => {
   };
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${url}/asset-type/${assetType.id}`, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      if (res.status === 401) {
-        signOut();
-      }
-      throw new Error("Failed to fetch data");
-    }
+    const url = `asset-type/${assetType.id}`;
+    const method = "DELETE";
+    const body = "";
+    await fetchData({ url, method, body });
     setAssetTypeDelete("");
     setOpenModalDelete(false);
     toast.success("AssetType deleted successfully");

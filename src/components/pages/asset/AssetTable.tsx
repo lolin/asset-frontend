@@ -17,11 +17,9 @@ interface AssetProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
 }
 
 const AssetTable: React.FC<AssetProps> = ({
-  token,
   assets,
   categories,
   page,
@@ -68,12 +66,7 @@ const AssetTable: React.FC<AssetProps> = ({
                 </tr>
               ) : assets.length > 0 ? (
                 assets.map((asset: any) => (
-                  <List
-                    key={asset.id}
-                    asset={asset}
-                    setRefresh={setRefresh}
-                    token={token}
-                  />
+                  <List key={asset.id} asset={asset} setRefresh={setRefresh} />
                 ))
               ) : (
                 <tr>

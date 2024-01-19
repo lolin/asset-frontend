@@ -7,9 +7,8 @@ import { toast } from "react-toastify";
 import { signOut } from "next-auth/react";
 interface RefreshProps {
   setRefresh: any;
-  token: string;
 }
-const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
+const ButtonCreate = ({ setRefresh }: RefreshProps, {}) => {
   const router = useRouter();
   return (
     <div className="lg:ml-40 ml-0 lg:space-x-8">

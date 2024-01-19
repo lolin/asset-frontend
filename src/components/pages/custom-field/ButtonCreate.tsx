@@ -4,7 +4,6 @@ import Modal from "../../modal/Modal";
 import { FormEventHandler, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { signOut } from "next-auth/react";
 import ModalForm from "@/components/modal/ModalForm";
 import TextInput from "@/components/elements/TextInput";
 import Button from "@/components/elements/Button";
@@ -12,13 +11,13 @@ import Label from "@/components/elements/Label";
 import { FieldSet } from "@/types/field-set";
 import Select from "@/components/elements/Select";
 import TxtArea from "@/components/elements/TxtArea";
+import fetchData from "@/util/fetchWrapper";
 interface RefreshProps {
   setRefresh: any;
-  token: string;
   fieldSets: FieldSet[];
 }
 const ButtonCreate: React.FC<RefreshProps> = (
-  { setRefresh, token, fieldSets }: RefreshProps,
+  { setRefresh, fieldSets }: RefreshProps,
   {}
 ) => {
   const router = useRouter();
@@ -28,31 +27,19 @@ const ButtonCreate: React.FC<RefreshProps> = (
   const [fieldType, setFieldType] = useState<string>("");
   const [fieldValue, setFieldValue] = useState<any>();
   const [helperText, sethelperText] = useState<string>("");
-  const url = process.env.NEXT_PUBLIC_API_URL;
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (fieldName !== "") {
-      const res = await fetch(`${url}/custom-fields`, {
-        cache: "no-store",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          fieldName: fieldName,
-          fieldSetId: fieldSetID,
-          fieldType: fieldType,
-          fieldValue: fieldValue,
-          helperText: helperText,
-        }),
-      });
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
+      const url = `custom-fields`;
+      const method = "POST";
+      const body = {
+        fieldName: fieldName,
+        fieldSetId: fieldSetID,
+        fieldType: fieldType,
+        fieldValue: fieldValue,
+        helperText: helperText,
+      };
+      await fetchData({ url, method, body });
       setFieldName("");
       setFieldSetID("");
       setFieldType("");

@@ -55,7 +55,6 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
       document.querySelector("body")?.classList.remove("sidebar-expanded");
     }
   }, [sidebarExpanded]);
-  console.log(sidebarOpen);
   return (
     <aside
       ref={sidebar}

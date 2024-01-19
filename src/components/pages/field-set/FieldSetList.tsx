@@ -6,17 +6,16 @@ import Modal from "@/components/modal/Modal";
 import ModalForm from "@/components/modal/ModalForm";
 import ModalFormDelete from "@/components/modal/ModalFormDelete";
 import { FieldSet } from "@/types/field-set";
-import { signOut } from "next-auth/react";
 import { FormEventHandler, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
+import fetchData from "@/util/fetchWrapper";
+
 interface FieldSetProps {
   fieldset: FieldSet;
   setRefresh: any;
-  token: string;
 }
-const List: React.FC<FieldSetProps> = ({ fieldset, setRefresh, token }) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
+const List: React.FC<FieldSetProps> = ({ fieldset, setRefresh }) => {
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [fieldsetEdit, setFieldSetEdit] = useState<string>(fieldset.name);
@@ -24,22 +23,10 @@ const List: React.FC<FieldSetProps> = ({ fieldset, setRefresh, token }) => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (fieldsetEdit !== "") {
-      const res = await fetch(`${url}/field-sets/${fieldset.id}`, {
-        cache: "no-store",
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name: fieldsetEdit }),
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
+      const url = `field-sets/${fieldset.id}`;
+      const method = "PATCH";
+      const body = { name: fieldsetEdit };
+      await fetchData({ url, method, body });
     }
     setFieldSetEdit("");
     setOpenModalEdit(false);
@@ -48,20 +35,10 @@ const List: React.FC<FieldSetProps> = ({ fieldset, setRefresh, token }) => {
   };
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${url}/field-sets/${fieldset.id}`, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      if (res.status === 401) {
-        signOut();
-      }
-      throw new Error("Failed to fetch data");
-    }
+    const url = `field-sets/${fieldset.id}`;
+    const method = "DELETE";
+    const body = { name: fieldsetEdit };
+    await fetchData({ url, method, body });
     setFieldSetDelete("");
     setOpenModalDelete(false);
     toast.success("FieldSet deleted successfully");

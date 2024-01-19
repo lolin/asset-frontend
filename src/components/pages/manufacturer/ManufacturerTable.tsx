@@ -15,11 +15,9 @@ interface BrandProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
 }
 
 const BrandTable: React.FC<BrandProps> = ({
-  token,
   manufacturers,
   page,
   setPage,
@@ -65,7 +63,6 @@ const BrandTable: React.FC<BrandProps> = ({
                     key={manufacturer.id}
                     manufacturer={manufacturer}
                     setRefresh={setRefresh}
-                    token={token}
                   />
                 ))
               ) : (

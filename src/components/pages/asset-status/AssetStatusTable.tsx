@@ -15,11 +15,9 @@ interface AssetStatusProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
 }
 
 const AssetStatusTable: React.FC<AssetStatusProps> = ({
-  token,
   companies,
   page,
   setPage,
@@ -66,7 +64,6 @@ const AssetStatusTable: React.FC<AssetStatusProps> = ({
                     key={assetStatus.id}
                     assetStatus={assetStatus}
                     setRefresh={setRefresh}
-                    token={token}
                   />
                 ))
               ) : (

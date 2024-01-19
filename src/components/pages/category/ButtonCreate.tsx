@@ -4,48 +4,36 @@ import Modal from "../../modal/Modal";
 import { FormEventHandler, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { signOut } from "next-auth/react";
 import ModalForm from "@/components/modal/ModalForm";
 import TextInput from "@/components/elements/TextInput";
 import Button from "@/components/elements/Button";
 import Label from "@/components/elements/Label";
 import Select from "@/components/elements/Select";
 import { AssetType } from "@/types/asset-type";
+import fetchData from "@/util/fetchWrapper";
+
 interface RefreshProps {
   setRefresh: any;
-  token: string;
   assetTypes: AssetType[];
 }
 const ButtonCreate: React.FC<RefreshProps> = (
-  { setRefresh, token, assetTypes }: RefreshProps,
+  { setRefresh, assetTypes }: RefreshProps,
   {}
 ) => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [newTaskValue, setNewTaskValue] = useState<string>("");
   const [newAssetTypeId, setNewAssetTypeId] = useState<string>("");
-  const url = process.env.NEXT_PUBLIC_API_URL;
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (newTaskValue !== "") {
-      const res = await fetch(`${url}/category`, {
-        cache: "no-store",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: newTaskValue,
-          assetTypeId: newAssetTypeId,
-        }),
-      });
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
+      const url = `category`;
+      const method = "POST";
+      const body = {
+        name: newTaskValue,
+        assetTypeId: newAssetTypeId,
+      };
+      await fetchData({ url, method, body });
       toast.success("Category added successfully");
       setRefresh(true);
     }

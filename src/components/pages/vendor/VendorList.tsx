@@ -1,10 +1,9 @@
 import Modal from "@/components/modal/Modal";
 import { Vendor } from "@/types/vendor";
-import { signOut } from "next-auth/react";
 import { FormEventHandler, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
-import { BsEye, BsEyeFill } from "react-icons/bs";
+import { BsEye } from "react-icons/bs";
 import Link from "next/link";
 import Label from "@/components/elements/Label";
 import TextInput from "@/components/elements/TextInput";
@@ -14,13 +13,12 @@ import TxtArea from "@/components/elements/TxtArea";
 import ModalFormDelete from "@/components/modal/ModalFormDelete";
 import Row from "@/components/elements/Row";
 import Col from "@/components/elements/Col";
+import fetchData from "@/util/fetchWrapper";
 interface VendorProps {
   vendor: Vendor;
   setRefresh: any;
-  token: string;
 }
-const List: React.FC<VendorProps> = ({ vendor, setRefresh, token }) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
+const List: React.FC<VendorProps> = ({ vendor, setRefresh }) => {
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalPreview, setOpenModalPreview] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
@@ -42,33 +40,21 @@ const List: React.FC<VendorProps> = ({ vendor, setRefresh, token }) => {
   const [editPICEmail, setEditPICEmail] = useState<string>(vendor.picEmail);
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    const url = `vendors/${vendor.id}`;
+    const method = "PATCH";
+    const body = {
+      name: editVendor,
+      phone: editVendorPhone,
+      email: editVendorEmail,
+      address: editVendorAddress,
+      website: editVendorWebsite,
+      onlineShop: editVendorOnlineShop,
+      picName: editPICName,
+      picPhone: editPICPhone,
+      picEmail: editPICEmail,
+    };
     if (editVendor !== "") {
-      const res = await fetch(`${url}/vendors/${vendor.id}`, {
-        cache: "no-store",
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: editVendor,
-          phone: editVendorPhone,
-          email: editVendorEmail,
-          address: editVendorAddress,
-          website: editVendorWebsite,
-          onlineShop: editVendorOnlineShop,
-          picName: editPICName,
-          picPhone: editPICPhone,
-          picEmail: editPICEmail,
-        }),
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
+      await fetchData({ url, method, body });
     }
     setOpenModalEdit(false);
     toast.success("Vendor updated successfully");
@@ -76,20 +62,10 @@ const List: React.FC<VendorProps> = ({ vendor, setRefresh, token }) => {
   };
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${url}/vendors/${vendor.id}`, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      if (res.status === 401) {
-        signOut();
-      }
-      throw new Error("Failed to fetch data");
-    }
+    const url = `vendors/${vendor.id}`;
+    const method = "DELETE";
+    const body = "";
+    await fetchData({ url, method, body });
     setVendorDelete("");
     setOpenModalDelete(false);
     toast.success("Vendor deleted successfully");

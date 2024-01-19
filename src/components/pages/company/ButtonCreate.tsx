@@ -8,34 +8,20 @@ import { signOut } from "next-auth/react";
 import ModalForm from "@/components/modal/ModalForm";
 import TextInput from "@/components/elements/TextInput";
 import Button from "@/components/elements/Button";
+import fetchData from "@/util/fetchWrapper";
 interface RefreshProps {
   setRefresh: any;
-  token: string;
 }
-const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
+const ButtonCreate = ({ setRefresh }: RefreshProps, {}) => {
+  const url = `company`;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [newTaskValue, setNewTaskValue] = useState<string>("");
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (newTaskValue !== "") {
-      const res = await fetch(`${url}/company`, {
-        cache: "no-store",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name: newTaskValue }),
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-          console.log(res);
-        }
-        throw new Error("Failed to fetch data");
-      }
+      const method = "POST";
+      const body = { name: newTaskValue };
+      await fetchData({ url, method, body });
       toast.success("Company added successfully");
       setRefresh(true);
     }
@@ -67,5 +53,4 @@ const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
     </div>
   );
 };
-
 export default ButtonCreate;

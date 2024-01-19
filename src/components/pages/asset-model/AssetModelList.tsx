@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { FormEventHandler, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
+import fetchData from "@/util/fetchWrapper";
 interface AssetModelProps {
   assetModel: AssetModel;
   fieldSets: FieldSet[];
@@ -24,16 +25,13 @@ interface AssetModelProps {
   categories: Category[];
   depreciations: Depreciation[];
   setRefresh: any;
-  token: string;
 }
 const List: React.FC<AssetModelProps> = ({
   assetModel,
   fieldSets,
   setRefresh,
-  token,
 }) => {
   const router = useRouter();
-  const url = process.env.NEXT_PUBLIC_API_URL;
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [fieldName, setFieldName] = useState<string>(assetModel.name);
@@ -48,21 +46,16 @@ const List: React.FC<AssetModelProps> = ({
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (fieldName !== "") {
-      await fetch(`${url}/asset-models/${assetModel.id}`, {
-        cache: "no-store",
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          fieldName: fieldName,
-          // fieldSetId: fieldSetID,
-          // fieldType: fieldType,
-          // fieldValue: fieldValue,
-          // helperText: helperText,
-        }),
-      });
+      const url = `asset-models/${assetModel.id}`;
+      const method = "PATCH";
+      const body = {
+        fieldName: fieldName,
+        // fieldSetId: fieldSetID,
+        // fieldType: fieldType,
+        // fieldValue: fieldValue,
+        // helperText: helperText,
+      };
+      await fetchData({ url, method, body });
     }
     setOpenModalEdit(false);
     toast.success("AssetModel updated successfully");
@@ -70,15 +63,10 @@ const List: React.FC<AssetModelProps> = ({
   };
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    await fetch(`${url}/asset-models/${assetModel.id}`, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    // setAssetModelDelete("");
+    const url = `asset-models/${assetModel.id}`;
+    const method = "DELETE";
+    const body = "";
+    await fetchData({ url, method, body });
     setOpenModalDelete(false);
     toast.success("AssetModel deleted successfully");
     setRefresh(true);

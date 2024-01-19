@@ -1,15 +1,14 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { signOut, useSession } from "next-auth/react";
 import ButtonCreate from "@/components/pages/custom-field/ButtonCreate";
 import CustomFieldTable from "@/components/pages/custom-field/CustomFieldTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HeaderCompnent from "@/components/utility/HeaderComponent";
 import SearchComponent from "@/components/utility/SearchComponent";
+import fetchData from "@/util/fetchWrapper";
 
 export default function CustomField() {
-  const session = useSession();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [keyword, setKeyword] = useState("");
@@ -19,41 +18,22 @@ export default function CustomField() {
   const [fieldSets, setFieldSet] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
-  const [token, setToken] = useState("");
-  const accessToken = session.data?.user.accessToken || "";
-  const url = process.env.NEXT_PUBLIC_API_URL;
 
   const getCustomField = useCallback(async () => {
+    const url = `custom-fields?key=${keyword}&page=${page}&limit=${limit}`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/custom-fields?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        setLoading(false);
-        toast.error("Failed to fetch data");
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setCustomField(data.data);
-      setLimit(data.limit);
-      setTotalPage(data.totalPage);
-      setTotalData(data.totalRows);
+      const res = await fetchData({ url, method, body });
+      setCustomField(res.payload.data);
+      setLimit(res.pagination.limit);
+      setTotalPage(res.pagination.total_page);
+      setTotalData(res.pagination.total_rows);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, keyword, limit, page, url]);
+  }, [keyword, limit, page]);
   async function searchCustomField(e: any) {
     e.preventDefault();
     setPage(1);
@@ -61,44 +41,27 @@ export default function CustomField() {
     setKeyword(e.target.value);
   }
   const getFieldSet = useCallback(async () => {
+    const url = `field-sets/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/field-sets?key=${keyword}&page=${page}&limit=1000`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setFieldSet(data.data);
-      setLimit(data.limit);
-      setTotalPage(data.totalPage);
-      setTotalData(data.totalRows);
+      const res = await fetchData({ url, method, body });
+      setFieldSet(res.payload.data);
+      setLimit(res.pagination.limit);
+      setTotalPage(res.pagination.total_page);
+      setTotalData(res.pagination.total_rows);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, setFieldSet, keyword, page, url]);
+  }, [setFieldSet]);
 
   useEffect(() => {
     setCustomField([]);
-    if (accessToken) {
-      setToken(accessToken);
-      getCustomField();
-      getFieldSet();
-      setRefresh(false);
-    }
-  }, [page, keyword, getCustomField, getFieldSet, refresh, accessToken]);
+    getCustomField();
+    getFieldSet();
+    setRefresh(false);
+  }, [getCustomField, getFieldSet, refresh]);
 
   return (
     <div className="bg-white p-8 rounded-md w-full shadow-xl">
@@ -112,15 +75,10 @@ export default function CustomField() {
             searchData={searchCustomField}
             placeholder={"Search custom field"}
           />
-          <ButtonCreate
-            setRefresh={setRefresh}
-            token={token}
-            fieldSets={fieldSets}
-          />
+          <ButtonCreate setRefresh={setRefresh} fieldSets={fieldSets} />
         </div>
       </div>
       <CustomFieldTable
-        token={token}
         customfields={customfields}
         fieldsets={fieldSets}
         page={page}

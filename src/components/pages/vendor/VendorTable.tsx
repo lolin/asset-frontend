@@ -15,11 +15,9 @@ interface VendorProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
 }
 
 const VendorTable: React.FC<VendorProps> = ({
-  token,
   categories,
   page,
   setPage,
@@ -68,7 +66,6 @@ const VendorTable: React.FC<VendorProps> = ({
                     key={vendor.id}
                     vendor={vendor}
                     setRefresh={setRefresh}
-                    token={token}
                   />
                 ))
               ) : (

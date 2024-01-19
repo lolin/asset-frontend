@@ -15,11 +15,9 @@ interface AssetTypeProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
 }
 
 const AssetTypeTable: React.FC<AssetTypeProps> = ({
-  token,
   companies,
   page,
   setPage,
@@ -50,7 +48,7 @@ const AssetTypeTable: React.FC<AssetTypeProps> = ({
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={2} className=" p-4">
+                  <td colSpan={3} className=" p-4">
                     <Puff
                       stroke="#1C64F2"
                       fill="#1C64F2"
@@ -66,12 +64,11 @@ const AssetTypeTable: React.FC<AssetTypeProps> = ({
                     key={assetType.id}
                     assetType={assetType}
                     setRefresh={setRefresh}
-                    token={token}
                   />
                 ))
               ) : (
                 <tr>
-                  <td colSpan={2} className="text-center p-4">
+                  <td colSpan={3} className="text-center p-4">
                     No data found
                   </td>
                 </tr>

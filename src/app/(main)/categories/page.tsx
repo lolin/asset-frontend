@@ -1,15 +1,14 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { signOut, useSession } from "next-auth/react";
 import ButtonCreate from "@/components/pages/category/ButtonCreate";
 import CategoryTable from "@/components/pages/category/CategoryTable";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HeaderCompnent from "@/components/utility/HeaderComponent";
 import SearchComponent from "@/components/utility/SearchComponent";
+import fetchData from "@/util/fetchWrapper";
 
 export default function Category() {
-  const session = useSession();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [keyword, setKeyword] = useState("");
@@ -19,63 +18,34 @@ export default function Category() {
   const [assetTypes, setAssetType] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
-  const [token, setToken] = useState("");
-  const accessToken = session.data?.user.accessToken || "";
-  const url = process.env.NEXT_PUBLIC_API_URL;
 
   const getCategory = useCallback(async () => {
+    const url = `category?key=${keyword}&page=${page}&limit=${limit}`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/category?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setCategory(data.data);
-      setLimit(data.limit);
-      setTotalPage(data.totalPage);
-      setTotalData(data.totalRows);
+      const res = await fetchData({ url, method, body });
+      setCategory(res.payload.data);
+      setLimit(res.pagination.limit);
+      setTotalPage(res.pagination.total_page);
+      setTotalData(res.pagination.total_rows);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, keyword, limit, page, url]);
+  }, [keyword, limit, page]);
 
   const getAssetType = useCallback(async () => {
+    const url = `asset-type/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(`${url}/asset-type?key=&page=1&limit=1000`, {
-        cache: "no-store",
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log(res);
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setAssetType(data.data);
+      const res = await fetchData({ url, method, body });
+      setAssetType(res.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, url]);
+  }, []);
   async function searchCategory(e: any) {
     e.preventDefault();
     setPage(1);
@@ -85,13 +55,10 @@ export default function Category() {
 
   useEffect(() => {
     setCategory([]);
-    if (accessToken) {
-      setToken(accessToken);
-      getCategory();
-      getAssetType();
-      setRefresh(false);
-    }
-  }, [page, keyword, getCategory, getAssetType, refresh, accessToken]);
+    getCategory();
+    getAssetType();
+    setRefresh(false);
+  }, [getCategory, getAssetType, refresh]);
 
   return (
     <div className="bg-white p-8 rounded-md w-full shadow-xl">
@@ -102,15 +69,10 @@ export default function Category() {
             searchData={searchCategory}
             placeholder={"Search category"}
           />
-          <ButtonCreate
-            setRefresh={setRefresh}
-            token={token}
-            assetTypes={assetTypes}
-          />
+          <ButtonCreate setRefresh={setRefresh} assetTypes={assetTypes} />
         </div>
       </div>
       <CategoryTable
-        token={token}
         categories={categories}
         assetTypes={assetTypes}
         page={page}

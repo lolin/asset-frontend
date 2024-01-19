@@ -15,11 +15,9 @@ interface FieldSetProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
 }
 
 const FieldSetTable: React.FC<FieldSetProps> = ({
-  token,
   fieldsets,
   page,
   setPage,
@@ -65,7 +63,6 @@ const FieldSetTable: React.FC<FieldSetProps> = ({
                     key={fieldset.id}
                     fieldset={fieldset}
                     setRefresh={setRefresh}
-                    token={token}
                   />
                 ))
               ) : (

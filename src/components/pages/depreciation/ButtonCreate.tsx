@@ -9,12 +9,12 @@ import ModalForm from "@/components/modal/ModalForm";
 import TextInput from "@/components/elements/TextInput";
 import Button from "@/components/elements/Button";
 import Label from "@/components/elements/Label";
+import fetchData from "@/util/fetchWrapper";
 interface RefreshProps {
   setRefresh: any;
-  token: string;
 }
 const ButtonCreate: React.FC<RefreshProps> = (
-  { setRefresh, token }: RefreshProps,
+  { setRefresh }: RefreshProps,
   {}
 ) => {
   const router = useRouter();
@@ -22,29 +22,17 @@ const ButtonCreate: React.FC<RefreshProps> = (
   const [newTaskValue, setNewTaskValue] = useState<string>("");
   const [newTermValue, setNewTermValue] = useState<any>();
   const [newFloorValue, setNewFloorValue] = useState<any>();
-  const url = process.env.NEXT_PUBLIC_API_URL;
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    const url = `depreciations`;
+    const method = "POST";
+    const body = {
+      name: newTaskValue,
+      term: newTermValue,
+      floor: newFloorValue,
+    };
     if (newTaskValue !== "") {
-      const res = await fetch(`${url}/depreciations`, {
-        cache: "no-store",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: newTaskValue,
-          term: newTermValue,
-          floor: newFloorValue,
-        }),
-      });
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
+      await fetchData({ url, method, body });
       toast.success("Depreciation added successfully");
       setRefresh(true);
     }

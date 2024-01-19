@@ -10,13 +10,12 @@ import Link from "next/link";
 import Router from "next/router";
 import Row from "@/components/elements/Row";
 import Col from "@/components/elements/Col";
+import fetchData from "@/util/fetchWrapper";
 interface AssetProps {
   asset: Asset;
   setRefresh: any;
-  token: string;
 }
-const List: React.FC<AssetProps> = ({ asset, setRefresh, token }) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
+const List: React.FC<AssetProps> = ({ asset, setRefresh }) => {
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalPreview, setOpenModalPreview] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
@@ -61,27 +60,15 @@ const List: React.FC<AssetProps> = ({ asset, setRefresh, token }) => {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    const url = `assets/${asset.id}`;
+    const method = "PATCH";
+    const body = {
+      name: editAssetName,
+      categoryId: editAssetCategoryId,
+      departmentId: editAssetDepartmentId,
+    };
     if (editAsset !== "") {
-      const res = await fetch(`${url}/assets/${asset.id}`, {
-        cache: "no-store",
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: editAssetName,
-          categoryId: editAssetCategoryId,
-          departmentId: editAssetDepartmentId,
-        }),
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
+      await fetchData({ url, method, body });
     }
     setOpenModalEdit(false);
     toast.success("Asset updated successfully");
@@ -89,20 +76,10 @@ const List: React.FC<AssetProps> = ({ asset, setRefresh, token }) => {
   };
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${url}/assets/${asset.id}`, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      if (res.status === 401) {
-        signOut();
-      }
-      throw new Error("Failed to fetch data");
-    }
+    const url = `assets/${asset.id}`;
+    const method = "PATCH";
+    const body = "";
+    await fetchData({ url, method, body });
     setAssetDelete("");
     setOpenModalDelete(false);
     toast.success("Asset deleted successfully");

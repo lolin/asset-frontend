@@ -15,11 +15,8 @@ interface ConditionProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
 }
-
 const ConditionTable: React.FC<ConditionProps> = ({
-  token,
   categories,
   page,
   setPage,
@@ -66,7 +63,6 @@ const ConditionTable: React.FC<ConditionProps> = ({
                     key={condition.id}
                     condition={condition}
                     setRefresh={setRefresh}
-                    token={token}
                   />
                 ))
               ) : (

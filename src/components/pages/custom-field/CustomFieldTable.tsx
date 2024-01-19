@@ -17,11 +17,9 @@ interface CustomFieldProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
 }
 
 const CustomFieldTable: React.FC<CustomFieldProps> = ({
-  token,
   customfields,
   fieldsets,
   page,
@@ -73,7 +71,6 @@ const CustomFieldTable: React.FC<CustomFieldProps> = ({
                     customField={customField}
                     fieldSets={fieldsets}
                     setRefresh={setRefresh}
-                    token={token}
                   />
                 ))
               ) : (

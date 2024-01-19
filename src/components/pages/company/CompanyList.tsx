@@ -6,17 +6,17 @@ import Modal from "@/components/modal/Modal";
 import ModalForm from "@/components/modal/ModalForm";
 import ModalFormDelete from "@/components/modal/ModalFormDelete";
 import { Company } from "@/types/company";
-import { signOut } from "next-auth/react";
 import { FormEventHandler, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
+import fetchData from "@/util/fetchWrapper";
 interface CompanyProps {
   company: Company;
   setRefresh: any;
-  token: string;
 }
-const List: React.FC<CompanyProps> = ({ company, setRefresh, token }) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
+const List: React.FC<CompanyProps> = ({ company, setRefresh }) => {
+  // const accessToken = token;
+  const url = `company/${company.id}`;
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [companyEdit, setCompanyEdit] = useState<string>(company.name);
@@ -24,22 +24,9 @@ const List: React.FC<CompanyProps> = ({ company, setRefresh, token }) => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (companyEdit !== "") {
-      const res = await fetch(`${url}/company/${company.id}`, {
-        cache: "no-store",
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name: companyEdit }),
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
+      const method = "PATCH";
+      const body = { name: companyEdit };
+      await fetchData({ url, method, body });
     }
     setCompanyEdit("");
     setOpenModalEdit(false);
@@ -48,20 +35,9 @@ const List: React.FC<CompanyProps> = ({ company, setRefresh, token }) => {
   };
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${url}/company/${company.id}`, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      if (res.status === 401) {
-        signOut();
-      }
-      throw new Error("Failed to fetch data");
-    }
+    const method = "DELETE";
+    const body = "";
+    await fetchData({ url, method, body });
     setCompanyDelete("");
     setOpenModalDelete(false);
     toast.success("Company deleted successfully");

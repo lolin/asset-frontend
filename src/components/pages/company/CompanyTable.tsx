@@ -15,11 +15,9 @@ interface CompanyProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
 }
 
 const CompanyTable: React.FC<CompanyProps> = ({
-  token,
   companies,
   page,
   setPage,
@@ -65,7 +63,6 @@ const CompanyTable: React.FC<CompanyProps> = ({
                     key={company.id}
                     company={company}
                     setRefresh={setRefresh}
-                    token={token}
                   />
                 ))
               ) : (

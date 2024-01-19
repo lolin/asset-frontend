@@ -7,21 +7,15 @@ import Modal from "@/components/modal/Modal";
 import ModalForm from "@/components/modal/ModalForm";
 import ModalFormDelete from "@/components/modal/ModalFormDelete";
 import { AssetStatus } from "@/types/asset-status";
-import { signOut } from "next-auth/react";
+import fetchData from "@/util/fetchWrapper";
 import { FormEventHandler, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
 interface AssetStatusProps {
   assetStatus: AssetStatus;
   setRefresh: any;
-  token: string;
 }
-const List: React.FC<AssetStatusProps> = ({
-  assetStatus,
-  setRefresh,
-  token,
-}) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
+const List: React.FC<AssetStatusProps> = ({ assetStatus, setRefresh }) => {
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [assetStatusEdit, setAssetStatusEdit] = useState<string>(
@@ -36,25 +30,13 @@ const List: React.FC<AssetStatusProps> = ({
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (assetStatusEdit !== "") {
-      const res = await fetch(`${url}/asset-status/${assetStatus.id}`, {
-        cache: "no-store",
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: assetStatusEdit,
-          description: assetDescriptionEdit,
-        }),
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
+      const url = `asset-status/${assetStatus.id}`;
+      const method = "PATCH";
+      const body = {
+        name: assetStatusEdit,
+        description: assetDescriptionEdit,
+      };
+      await fetchData({ url, method, body });
     }
     setAssetStatusEdit("");
     setOpenModalEdit(false);
@@ -63,20 +45,11 @@ const List: React.FC<AssetStatusProps> = ({
   };
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${url}/asset-status/${assetStatus.id}`, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      if (res.status === 401) {
-        signOut();
-      }
-      throw new Error("Failed to fetch data");
-    }
+    const url = `asset-status/${assetStatus.id}`;
+    const method = "DELETE";
+    const body = "";
+    console.log(url);
+    await fetchData({ url, method, body });
     setAssetStatusDelete("");
     setOpenModalDelete(false);
     toast.success("AssetStatus deleted successfully");

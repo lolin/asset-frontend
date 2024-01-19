@@ -3,6 +3,7 @@ type Props = {
 };
 
 const Select = ({ ...props }: Props) => {
+  console.log(props.valueType === "string" ? "e.target.value" : "b");
   return (
     <select
       id={props.name}
@@ -12,7 +13,6 @@ const Select = ({ ...props }: Props) => {
       className={`select select-bordered w-full p-2.5  ${props.style || ""}`}
       onChange={(e) =>
         props.setValue(
-          console.log(e.target.value),
           props.valueType === "string"
             ? String(e.target.value)
             : Number(e.target.value)

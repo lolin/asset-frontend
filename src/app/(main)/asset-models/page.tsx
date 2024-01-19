@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HeaderCompnent from "@/components/utility/HeaderComponent";
 import SearchComponent from "@/components/utility/SearchComponent";
-
+import fetchData from "@/util/fetchWrapper";
 export default function AssetModel() {
   const session = useSession();
   const [page, setPage] = useState(1);
@@ -20,44 +20,24 @@ export default function AssetModel() {
   const [categories, setCategory] = useState([]);
   const [depreciations, setDepreciation] = useState([]);
   const [fieldSets, setFieldSet] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
-  const [token, setToken] = useState("");
-  const accessToken = session.data?.user.accessToken || "";
-  const url = process.env.NEXT_PUBLIC_API_URL;
 
   const getAssetModel = useCallback(async () => {
+    const url = `asset-models?key=${keyword}&page=${page}&limit=${limit}`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/asset-models?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        setLoading(false);
-        toast.error("Failed to fetch data");
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setAssetModel(data.data);
-      setLimit(data.limit);
-      setTotalPage(data.totalPage);
-      setTotalData(data.totalRows);
+      const res = await fetchData({ url, method, body });
+      setAssetModel(res.payload.data);
+      setLimit(res.pagination.limit);
+      setTotalPage(res.pagination.total_page);
+      setTotalData(res.pagination.total_rows);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, keyword, limit, page, url]);
+  }, [keyword, limit, page]);
   async function searchAssetModel(e: any) {
     e.preventDefault();
     setPage(1);
@@ -65,130 +45,65 @@ export default function AssetModel() {
     setKeyword(e.target.value);
   }
   const getFieldSet = useCallback(async () => {
+    const url = `field-sets/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/field-sets?key=${keyword}&page=${page}&limit=1000`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setFieldSet(data.data);
+      const res = await fetchData({ url, method, body });
+      setFieldSet(res.payload.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, setFieldSet, keyword, page, url]);
+  }, [setFieldSet]);
 
   const getManufacturer = useCallback(async () => {
+    const url = `manufacturers/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/manufacturers?key=${keyword}&page=${page}&limit=1000`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      console.log(res);
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        setLoading(false);
-        toast.error("Failed to fetch data");
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setManufacturer(data.data);
+      const res = await fetchData({ url, method, body });
+      setManufacturer(res.payload.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, keyword, page, url]);
+  }, []);
 
   const getCategory = useCallback(async () => {
+    const url = `category/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/category?key=${keyword}&page=${page}&limit=1000`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setCategory(data.data);
+      const res = await fetchData({ url, method, body });
+      setCategory(res.payload.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, keyword, page, url]);
+  }, []);
 
   const getDepreciation = useCallback(async () => {
+    const url = `depreciations/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/depreciations?key=${keyword}&page=${page}&limit=1000`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        setLoading(false);
-        toast.error("Failed to fetch data");
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setDepreciation(data.data);
+      const res = await fetchData({ url, method, body });
+      setDepreciation(res.payload.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, keyword, page, url]);
+  }, []);
 
   useEffect(() => {
     setAssetModel([]);
-    if (accessToken) {
-      setToken(accessToken);
-      getAssetModel();
-      getFieldSet();
-      getManufacturer();
-      getCategory();
-      getDepreciation();
-      setRefresh(false);
-    }
+    getAssetModel();
+    getFieldSet();
+    getManufacturer();
+    getCategory();
+    getDepreciation();
+    setRefresh(false);
   }, [
     page,
     keyword,
@@ -198,7 +113,6 @@ export default function AssetModel() {
     getCategory,
     getDepreciation,
     refresh,
-    accessToken,
   ]);
 
   return (
@@ -215,13 +129,11 @@ export default function AssetModel() {
             manufacturers={manufacturers}
             categories={categories}
             depreciations={depreciations}
-            token={token}
             fieldSets={fieldSets}
           />
         </div>
       </div>
       <AssetModelTable
-        token={token}
         assetmodels={assetmodels}
         fieldsets={fieldSets}
         manufacturers={manufacturers}

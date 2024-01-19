@@ -15,11 +15,9 @@ interface DepreciationProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
 }
 
 const DepreciationTable: React.FC<DepreciationProps> = ({
-  token,
   depreciations,
   page,
   setPage,
@@ -51,7 +49,7 @@ const DepreciationTable: React.FC<DepreciationProps> = ({
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={2} className=" p-4">
+                  <td colSpan={4} className=" p-4">
                     <Puff
                       stroke="#1C64F2"
                       fill="#1C64F2"
@@ -67,12 +65,11 @@ const DepreciationTable: React.FC<DepreciationProps> = ({
                     key={depreciation.id}
                     depreciation={depreciation}
                     setRefresh={setRefresh}
-                    token={token}
                   />
                 ))
               ) : (
                 <tr>
-                  <td colSpan={2} className="text-center p-4">
+                  <td colSpan={4} className="text-center p-4">
                     No data found
                   </td>
                 </tr>

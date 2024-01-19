@@ -10,19 +10,12 @@ import { Depreciation } from "@/types/depreciation";
 import { FormEventHandler, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
-// import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import fetchData from "@/util/fetchWrapper";
 interface DepreciationProps {
   depreciation: Depreciation;
   setRefresh: any;
-  token: string;
 }
-const List: React.FC<DepreciationProps> = ({
-  depreciation,
-  setRefresh,
-  token,
-}) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
+const List: React.FC<DepreciationProps> = ({ depreciation, setRefresh }) => {
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [depreciationEdit, setDepreciationEdit] = useState<string>(
@@ -38,20 +31,15 @@ const List: React.FC<DepreciationProps> = ({
   );
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    const url = `depreciations/${depreciation.id}`;
+    const method = "PATCH";
+    const body = {
+      name: depreciationEdit,
+      term: depreciationTermEdit,
+      floorValue: depreciationFloorValueEdit,
+    };
     if (depreciationEdit !== "") {
-      await fetch(`${url}/depreciations/${depreciation.id}`, {
-        cache: "no-store",
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: depreciationEdit,
-          term: depreciationTermEdit,
-          floorValue: depreciationFloorValueEdit,
-        }),
-      });
+      await fetchData({ url, method, body });
     }
     setDepreciationEdit("");
     setOpenModalEdit(false);
@@ -60,14 +48,10 @@ const List: React.FC<DepreciationProps> = ({
   };
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    await fetch(`${url}/depreciations/${depreciation.id}`, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const url = `depreciations/${depreciation.id}`;
+    const method = "DELETE";
+    const body = "";
+    await fetchData({ url, method, body });
     setDepreciationDelete("");
     setOpenModalDelete(false);
     toast.success("Depreciation deleted successfully");

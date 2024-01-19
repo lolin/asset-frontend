@@ -11,14 +11,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import CurrencyInput from "react-currency-input-field";
 import { id } from "date-fns/locale";
+import fetchData from "@/util/fetchWrapper";
 type Props = {
   [key: string]: any;
 };
 const FormCreate: React.FC = ({ ...props }: Props) => {
   const session = useSession();
   const router = useRouter();
-  const url = process.env.NEXT_PUBLIC_API_URL;
-  const accessToken = session.data?.user.accessToken || "";
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(1000);
   const [keyword, setKeyword] = useState("");
@@ -67,215 +66,112 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
   };
 
   const getDepartments = useCallback(async () => {
+    const url = `departments/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/departments?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        console.log(res);
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setDepartment(data.data);
+      const res = await fetchData({ url, method, body });
+      setDepartment(res.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, limit, page, url, keyword]);
+  }, [setDepartment]);
   const getVendors = useCallback(async () => {
+    const url = `vendors/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(
-        `${url}/vendors?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setVendor(data.data);
+      const res = await fetchData({ url, method, body });
+      setVendor(res.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, limit, page, url, keyword]);
+  }, [setVendor]);
   const getLastId = useCallback(async () => {
-    console.log(accessToken);
+    const url = `assets/lastid`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(`${url}/assets/lastid`, {
-        cache: "no-store",
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      if (data.data.length > 0) {
-        setAssetName(data.data.id + 1);
+      const data = await fetchData({ url, method, body });
+      if (data.payload.data.length > 0) {
+        setAssetName(data.payload.data.id + 1);
       } else {
         setAssetName(generateId(1));
       }
-      // setLastId(data.data.id);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, url]);
+  }, [setAssetName]);
   const getAssetModel = useCallback(async () => {
+    const url = `asset-models/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(`${url}/asset-models?key=&page1&limit=1000`, {
-        cache: "no-store",
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        toast.error("Failed to fetch data");
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setAssetModels(data.data);
+      const res = await fetchData({ url, method, body });
+      setAssetModels(res.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, url]);
+  }, [setAssetModels]);
   const getAssetStatus = useCallback(async () => {
+    const url = `asset-status/all`;
+    const method = "GET";
+    const body = "";
     try {
-      const res = await fetch(`${url}/asset-status?key=&page=1&limit=1000`, {
-        cache: "no-store",
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
-      const data = await res.json();
-      setAssetStatusList(data.data);
+      const res = await fetchData({ url, method, body });
+      setAssetStatusList(res.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, url]);
+  }, [setAssetStatusList]);
   const getCustomField = useCallback(
     async (id: any) => {
-      console.log(id);
+      const url = `custom-fields/get-by-model/data?id=${id}`;
+      const method = "GET";
+      const body = "";
       try {
-        const res = await fetch(
-          `${url}/custom-fields/get-by-model/data?id=${id}`,
-          {
-            cache: "no-store",
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        if (!res.ok) {
-          if (res.status === 401) {
-            signOut();
-          }
-          throw new Error("Failed to fetch data");
-        }
-        const data = await res.json();
-        setCustomFields(data.data);
+        const res = await fetchData({ url, method, body });
+        setCustomFields(res.payload.data);
       } catch (error) {
         console.log(error);
       }
     },
-    [accessToken, url]
+    [setCustomFields]
   );
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-
-    if (assetName !== "" && accessToken) {
-      const res = await fetch(`${url}/assets`, {
-        cache: "no-store",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          name: assetName,
-          categoryId: assetCategoryId,
-          departmentId: assetDepartmentId,
-          brandId: assetBrandId,
-          vendorId: assetVendorId,
-          conditionId: assetStatusId,
-          model: assetModel,
-          serialNumber: assetSerialNumber,
-          macAddress: assetMacAddress,
-          ipAddress: assetIpAddress,
-          price: assetPrice,
-          assetDetails: assetDetail,
-          purchaseDate: assetPurchaseDate,
-          warantyPeriod: assetWarantyPeriod,
-        }),
-      });
-      console.log(res);
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-          console.log(res);
-        }
-        throw new Error("Failed to fetch data");
-      }
-
+    const url = `assets`;
+    const method = "POST";
+    const body = {
+      name: assetName,
+      categoryId: assetCategoryId,
+      departmentId: assetDepartmentId,
+      brandId: assetBrandId,
+      vendorId: assetVendorId,
+      conditionId: assetStatusId,
+      model: assetModel,
+      serialNumber: assetSerialNumber,
+      macAddress: assetMacAddress,
+      ipAddress: assetIpAddress,
+      price: assetPrice,
+      assetDetails: assetDetail,
+      purchaseDate: assetPurchaseDate,
+      warantyPeriod: assetWarantyPeriod,
+      dynamic: inputFields,
+    };
+    if (assetName !== "") {
+      await fetchData({ url, method, body });
       toast.success("Asset added successfully");
       router.push("/assets");
     }
   };
   useEffect(() => {
-    if (accessToken) {
-      getLastId();
-      getDepartments();
-      getVendors();
-      getAssetStatus();
-      getAssetModel();
-    }
-  }, [
-    accessToken,
-    getLastId,
-    getDepartments,
-    getVendors,
-    getAssetStatus,
-    getAssetModel,
-  ]);
+    getLastId();
+    getDepartments();
+    getVendors();
+    getAssetStatus();
+    getAssetModel();
+  }, [getLastId, getDepartments, getVendors, getAssetStatus, getAssetModel]);
 
   useEffect(() => {
     if (assetModel !== "") {

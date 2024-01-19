@@ -2,45 +2,29 @@
 import { AiOutlinePlus } from "react-icons/ai";
 import Modal from "../../modal/Modal";
 import { FormEventHandler, useState } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { signOut } from "next-auth/react";
 import ModalForm from "@/components/modal/ModalForm";
 import TextInput from "@/components/elements/TextInput";
 import Button from "@/components/elements/Button";
 import Label from "@/components/elements/Label";
+import fetchData from "@/util/fetchWrapper";
 interface RefreshProps {
   setRefresh: any;
-  token: string;
 }
-const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
+const ButtonCreate = ({ setRefresh }: RefreshProps, {}) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [newTaskValue, setNewTaskValue] = useState<string>("");
   const [newDescriptionValue, setNewDescriptionValue] = useState<string>("");
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (newTaskValue !== "") {
-      const res = await fetch(`${url}/asset-type`, {
-        cache: "no-store",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: newTaskValue,
-          description: newDescriptionValue,
-        }),
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-          console.log(res);
-        }
-        throw new Error("Failed to fetch data");
-      }
+      const url = `asset-type`;
+      const method = "POST";
+      const body = {
+        name: newTaskValue,
+        description: newDescriptionValue,
+      };
+      await fetchData({ url, method, body });
       toast.success("Asset Type added successfully");
       setRefresh(true);
     }

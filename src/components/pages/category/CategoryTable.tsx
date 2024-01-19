@@ -17,11 +17,9 @@ interface CategoryProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
 }
 
 const CategoryTable: React.FC<CategoryProps> = ({
-  token,
   categories,
   assetTypes,
   page,
@@ -70,7 +68,6 @@ const CategoryTable: React.FC<CategoryProps> = ({
                     category={category}
                     assetTypes={assetTypes}
                     setRefresh={setRefresh}
-                    token={token}
                   />
                 ))
               ) : (

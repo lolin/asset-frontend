@@ -8,7 +8,6 @@ import { FieldSet } from "@/types/field-set";
 import { Manufacturer } from "@/types/manufacturer";
 import { Category } from "@/types/category";
 import { Depreciation } from "@/types/depreciation";
-
 interface AssetModelProps {
   assetmodels: AssetModel[];
   fieldsets: FieldSet[];
@@ -23,11 +22,9 @@ interface AssetModelProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
 }
 
 const AssetModelTable: React.FC<AssetModelProps> = ({
-  token,
   assetmodels,
   fieldsets,
   manufacturers,
@@ -86,7 +83,6 @@ const AssetModelTable: React.FC<AssetModelProps> = ({
                     categories={categories}
                     depreciations={depreciations}
                     setRefresh={setRefresh}
-                    token={token}
                   />
                 ))
               ) : (

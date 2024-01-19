@@ -19,4 +19,6 @@ export default authMiddleware(mainmiddleware, [
   "/register",
   "/categories",
   "/vendors",
+  "/companies",
+  "/departments",
 ]);

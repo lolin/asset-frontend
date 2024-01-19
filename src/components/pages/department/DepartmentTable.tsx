@@ -15,12 +15,10 @@ interface DepartmentProps {
   loading: boolean;
   setLoading: any;
   setRefresh: any;
-  token: string;
   company: any;
 }
 
 const DepartmentTable: React.FC<DepartmentProps> = ({
-  token,
   categories,
   page,
   setPage,
@@ -69,7 +67,6 @@ const DepartmentTable: React.FC<DepartmentProps> = ({
                     department={department}
                     company={company}
                     setRefresh={setRefresh}
-                    token={token}
                   />
                 ))
               ) : (

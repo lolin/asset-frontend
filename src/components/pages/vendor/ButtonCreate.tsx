@@ -2,20 +2,17 @@
 import { AiOutlinePlus } from "react-icons/ai";
 import Modal from "../../modal/Modal";
 import { FormEventHandler, useState } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { signOut } from "next-auth/react";
 import ModalForm from "@/components/modal/ModalForm";
 import Label from "@/components/elements/Label";
 import TextInput from "@/components/elements/TextInput";
 import Button from "@/components/elements/Button";
 import TxtArea from "@/components/elements/TxtArea";
+import fetchData from "@/util/fetchWrapper";
 interface RefreshProps {
   setRefresh: any;
-  token: string;
 }
-const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
+const ButtonCreate = ({ setRefresh }: RefreshProps, {}) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [newVendor, setNewVendor] = useState<string>("");
   const [newVendorPhone, setNewVendorPhone] = useState<string>("");
@@ -28,35 +25,21 @@ const ButtonCreate = ({ setRefresh, token }: RefreshProps, {}) => {
   const [newPICEmail, setNewPICEmail] = useState<string>("");
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    const url = `vendors`;
+    const method = "POST";
+    const body = {
+      name: newVendor,
+      phone: newVendorPhone,
+      email: newVendorEmail,
+      address: newVendorAddress,
+      website: newVendorWebsite,
+      onlineShop: newVendorOnlineShop,
+      picName: newPICName,
+      picPhone: newPICPhone,
+      picEmail: newPICEmail,
+    };
     if (newVendor !== "") {
-      const res = await fetch(`${url}/vendors`, {
-        cache: "no-store",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: newVendor,
-          phone: newVendorPhone,
-          email: newVendorEmail,
-          address: newVendorAddress,
-          website: newVendorWebsite,
-          onlineShop: newVendorOnlineShop,
-          picName: newPICName,
-          picPhone: newPICPhone,
-          picEmail: newPICEmail,
-        }),
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          // signOut();
-          console.log(res);
-        }
-        throw new Error("Failed to fetch data");
-      }
-
+      await fetchData({ url, method, body });
       toast.success("Vendor added successfully");
       setRefresh(true);
     }

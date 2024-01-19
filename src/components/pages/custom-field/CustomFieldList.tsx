@@ -10,24 +10,20 @@ import ModalForm from "@/components/modal/ModalForm";
 import ModalFormDelete from "@/components/modal/ModalFormDelete";
 import { CustomField } from "@/types/custom-field";
 import { FieldSet } from "@/types/field-set";
+import fetchData from "@/util/fetchWrapper";
 import { FormEventHandler, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
-// import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 interface CustomFieldProps {
   customField: CustomField;
   fieldSets: FieldSet[];
   setRefresh: any;
-  token: string;
 }
 const List: React.FC<CustomFieldProps> = ({
   customField,
   fieldSets,
   setRefresh,
-  token,
 }) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [fieldName, setFieldName] = useState<string>(customField.fieldName);
@@ -42,21 +38,16 @@ const List: React.FC<CustomFieldProps> = ({
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (fieldName !== "") {
-      await fetch(`${url}/custom-fields/${customField.id}`, {
-        cache: "no-store",
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          fieldName: fieldName,
-          fieldSetId: fieldSetID,
-          fieldType: fieldType,
-          fieldValue: fieldValue,
-          helperText: helperText,
-        }),
-      });
+      const url = `custom-fields/${customField.id}`;
+      const method = "PATCH";
+      const body = {
+        fieldName: fieldName,
+        fieldSetId: fieldSetID,
+        fieldType: fieldType,
+        fieldValue: fieldValue,
+        helperText: helperText,
+      };
+      await fetchData({ url, method, body });
     }
     setOpenModalEdit(false);
     toast.success("CustomField updated successfully");
@@ -64,15 +55,10 @@ const List: React.FC<CustomFieldProps> = ({
   };
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    await fetch(`${url}/custom-fields/${customField.id}`, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    // setCustomFieldDelete("");
+    const url = `custom-fields/${customField.id}`;
+    const method = "DELETE";
+    const body = "";
+    await fetchData({ url, method, body });
     setOpenModalDelete(false);
     toast.success("CustomField deleted successfully");
     setRefresh(true);

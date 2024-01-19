@@ -45,17 +45,14 @@ const FormEdit = (props: { params: string }) => {
 
   const getCategories = useCallback(async () => {
     try {
-      const res = await fetch(
-        `${url}/category?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const res = await fetch(`${url}/category/all`, {
+        cache: "no-store",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       if (!res.ok) {
         if (res.status === 401) {
           signOut();
@@ -63,24 +60,21 @@ const FormEdit = (props: { params: string }) => {
         throw new Error("Failed to fetch data");
       }
       const data = await res.json();
-      setCategory(data.data);
+      setCategory(data.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, limit, page, url, keyword]);
+  }, [accessToken, url]);
   const getDepartments = useCallback(async () => {
     try {
-      const res = await fetch(
-        `${url}/departments?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const res = await fetch(`${url}/departments/all`, {
+        cache: "no-store",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       if (!res.ok) {
         // console.log(res);
         if (res.status === 401) {
@@ -89,24 +83,21 @@ const FormEdit = (props: { params: string }) => {
         throw new Error("Failed to fetch data");
       }
       const data = await res.json();
-      setDepartment(data.data);
+      setDepartment(data.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, limit, page, url, keyword]);
+  }, [accessToken, url]);
   const getVendors = useCallback(async () => {
     try {
-      const res = await fetch(
-        `${url}/vendors?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const res = await fetch(`${url}/vendors/all`, {
+        cache: "no-store",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       if (!res.ok) {
         if (res.status === 401) {
           signOut();
@@ -114,24 +105,21 @@ const FormEdit = (props: { params: string }) => {
         throw new Error("Failed to fetch data");
       }
       const data = await res.json();
-      setVendor(data.data);
+      setVendor(data.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, limit, page, url, keyword]);
+  }, [accessToken, url]);
   const getBrands = useCallback(async () => {
     try {
-      const res = await fetch(
-        `${url}/manufacturers?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const res = await fetch(`${url}/manufacturers/all`, {
+        cache: "no-store",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       if (!res.ok) {
         if (res.status === 401) {
           signOut();
@@ -139,24 +127,21 @@ const FormEdit = (props: { params: string }) => {
         throw new Error("Failed to fetch data");
       }
       const data = await res.json();
-      setBrand(data.data);
+      setBrand(data.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, limit, page, url, keyword]);
+  }, [accessToken, url]);
   const getConditions = useCallback(async () => {
     try {
-      const res = await fetch(
-        `${url}/conditions?key=${keyword}&page=${page}&limit=${limit}`,
-        {
-          cache: "no-store",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const res = await fetch(`${url}/conditions/all`, {
+        cache: "no-store",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       if (!res.ok) {
         if (res.status === 401) {
           signOut();
@@ -164,11 +149,11 @@ const FormEdit = (props: { params: string }) => {
         throw new Error("Failed to fetch data");
       }
       const data = await res.json();
-      setCondition(data.data);
+      setCondition(data.payload.data);
     } catch (error) {
       console.log(error);
     }
-  }, [accessToken, limit, page, url, keyword]);
+  }, [accessToken, url]);
 
   const getAsset = useCallback(async () => {
     try {
@@ -187,21 +172,21 @@ const FormEdit = (props: { params: string }) => {
         throw new Error("Failed to fetch data");
       }
       const data = await res.json();
-      setAsset(data.data);
-      setAssetName(data.data.name);
-      setAssetCategoryId(Number(data.data.categoryId));
-      setAssetDepartmentId(Number(data.data.departmentId));
-      setAssetBrandId(Number(data.data.brandId));
-      setAssetVendorId(Number(data.data.vendorId));
-      setAssetConditionId(Number(data.data.conditionId));
-      setAssetModel(data.data.model);
-      setAssetSerialNumber(data.data.serialNumber);
-      setAssetMacAddress(data.data.macAddress);
-      setAssetIpAddress(data.data.ipAddress);
-      setAssetPrice(data.data.price);
-      setAssetDetail(data.data.assetDetails);
-      setAssetPurchaseDate(new Date(data.data.purchaseDate));
-      setAssetWarantyPeriod(new Date(data.data.warantyPeriod));
+      setAsset(data.payload.data);
+      setAssetName(data.payload.data.name);
+      setAssetCategoryId(Number(data.payload.data.categoryId));
+      setAssetDepartmentId(Number(data.payload.data.departmentId));
+      setAssetBrandId(Number(data.payload.data.brandId));
+      setAssetVendorId(Number(data.payload.data.vendorId));
+      setAssetConditionId(Number(data.payload.data.conditionId));
+      setAssetModel(data.payload.data.model);
+      setAssetSerialNumber(data.payload.data.serialNumber);
+      setAssetMacAddress(data.payload.data.macAddress);
+      setAssetIpAddress(data.payload.data.ipAddress);
+      setAssetPrice(data.payload.data.price);
+      setAssetDetail(data.payload.data.assetDetails);
+      setAssetPurchaseDate(new Date(data.payload.data.purchaseDate));
+      setAssetWarantyPeriod(new Date(data.payload.data.warantyPeriod));
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -234,15 +219,12 @@ const FormEdit = (props: { params: string }) => {
           warantyPeriod: assetWarantyPeriod,
         }),
       });
-      // console.log(res);
       if (!res.ok) {
         if (res.status === 401) {
           signOut();
-          // console.log(res);
         }
         throw new Error("Failed to fetch data");
       }
-
       toast.success("Asset added successfully");
       router.push("/assets");
     }

@@ -7,27 +7,22 @@ import TextInput from "@/components/elements/TextInput";
 import Modal from "@/components/modal/Modal";
 import ModalForm from "@/components/modal/ModalForm";
 import ModalFormDelete from "@/components/modal/ModalFormDelete";
-import { Company } from "@/types/company";
 import { Department } from "@/types/department";
-import { signOut } from "next-auth/react";
 import { FormEventHandler, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { toast } from "react-toastify";
-// import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import fetchData from "@/util/fetchWrapper";
 interface DepartmentProps {
   department: Department;
   company: any;
   setRefresh: any;
-  token: string;
 }
 const List: React.FC<DepartmentProps> = ({
   department,
   company,
   setRefresh,
-  token,
 }) => {
-  const url = process.env.NEXT_PUBLIC_API_URL;
+  const url = `departments/${department.id}`;
   const [openModalEdit, setOpenModalEdit] = useState<boolean>(false);
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [departmentEdit, setDepartmentEdit] = useState<string>(department.name);
@@ -38,22 +33,9 @@ const List: React.FC<DepartmentProps> = ({
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (departmentEdit !== "") {
-      const res = await fetch(`${url}/departments/${department.id}`, {
-        cache: "no-store",
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name: departmentEdit, companyId: companyEdit }),
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          signOut();
-        }
-        throw new Error("Failed to fetch data");
-      }
+      const method = "PATCH";
+      const body = { name: departmentEdit, companyId: companyEdit };
+      await fetchData({ url, method, body });
     }
     setDepartmentEdit("");
     setCompanyEdit({} as number);
@@ -63,20 +45,9 @@ const List: React.FC<DepartmentProps> = ({
   };
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const res = await fetch(`${url}/departments/${department.id}`, {
-      cache: "no-store",
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      if (res.status === 401) {
-        signOut();
-      }
-      throw new Error("Failed to fetch data");
-    }
+    const method = "DELETE";
+    const body = "";
+    await fetchData({ url, method, body });
     setDepartmentDelete("");
     setOpenModalDelete(false);
     toast.success("Department deleted successfully");
