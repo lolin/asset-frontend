@@ -1,5 +1,6 @@
 import Login from "@/app/(auth)/login/page";
 import { getToken } from "next-auth/jwt";
+import { secret } from "@config/config";
 import {
   NextFetchEvent,
   NextMiddleware,
@@ -17,15 +18,13 @@ export default function authMiddleware(
     if (requireAuth.includes(pathname)) {
       const token = await getToken({
         req,
-        secret: process.env.NEXTAUTH_SECRET,
+        secret: secret,
       });
-      // console.log(token);
       if (!token && !authPage.includes(pathname)) {
         const url = new URL("/login", req.url);
         url.searchParams.set("callbackUrl", encodeURI(req.url));
         return NextResponse.redirect(url);
       }
-
       if (token) {
         if (authPage.includes(pathname)) {
           return NextResponse.redirect(new URL("/dashboard", req.url));

@@ -55,7 +55,7 @@ const AssetTable: React.FC<AssetProps> = ({
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={5} className=" p-4">
+                  <td colSpan={7} className=" p-4">
                     <Puff
                       stroke="#1C64F2"
                       fill="#1C64F2"
@@ -71,7 +71,7 @@ const AssetTable: React.FC<AssetProps> = ({
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} className="text-center p-4">
+                  <td colSpan={7} className="text-center p-4">
                     No data found
                   </td>
                 </tr>

@@ -3,15 +3,14 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import Image from "next/image";
+import { Puff } from "react-loading-icons";
 export default function Login({ searchParams }: any) {
   const { push } = useRouter();
   const [error, setError] = useState("");
   const [loginSuccess, setLoginSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const callback = searchParams?.callbackUrl || "/dashboard";
-  // const url = "http://localhost:3001/auth";
-  // const local = localStorage.getItem("token");
 
   const login = async (e: any) => {
     e.preventDefault();
@@ -25,7 +24,6 @@ export default function Login({ searchParams }: any) {
         password: e.target.password.value,
         callbackUrl: callback,
       });
-      // console.log(res);
       if (!res?.error) {
         setIsLoading(false);
         setLoginSuccess("Login success");
@@ -47,9 +45,17 @@ export default function Login({ searchParams }: any) {
     <div className="flex items-center justify-center h-screen flex-col">
       <div className="bg-white shadow-md border border-gray-200 w-96 rounded-lg max-w-sm p-4 sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
         <form className="space-y-6" onSubmit={login}>
-          <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-            Sign in
-          </h3>
+          <div className="flex items-center justify-between">
+            <Image
+              width={200}
+              height={42}
+              src={"/images/logo/logo.svg"}
+              alt="Logo"
+            />
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              Sign in
+            </h3>
+          </div>
           <div>
             <label
               htmlFor="email"
@@ -96,7 +102,16 @@ export default function Login({ searchParams }: any) {
           <div className="text-red-500 font-normal">{error}</div>
         )}
         {loginSuccess !== "" && (
-          <div className="text-sky-400 font-normal">{loginSuccess}</div>
+          <div className="text-sky-950 font-normal">
+            {loginSuccess}
+            <Puff
+              stroke="#1C64F2"
+              fill="#1C64F2"
+              width={70}
+              height={70}
+              className="m-0 p-0 content-center w-full"
+            />
+          </div>
         )}
       </div>
     </div>

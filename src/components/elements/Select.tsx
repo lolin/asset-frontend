@@ -3,7 +3,6 @@ type Props = {
 };
 
 const Select = ({ ...props }: Props) => {
-  console.log(props.valueType === "string" ? "e.target.value" : "b");
   return (
     <select
       id={props.name}

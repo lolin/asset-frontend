@@ -113,7 +113,7 @@ const List: React.FC<VendorProps> = ({ vendor, setRefresh }) => {
                   <p className="mb-4 w-full flex">
                     <span className="font-bold  mr-2 w-1/4">Website:</span>{" "}
                     <Link
-                      href={vendor.website}
+                      href={`${vendor.website}`}
                       target="_blank"
                       className="pointer transition-all hover:text-blue-600"
                     >

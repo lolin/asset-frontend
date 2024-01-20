@@ -1,12 +1,11 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import Credentials from "next-auth/providers/credentials";
-
+import { apiURL } from "@config/config";
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     Credentials({
       name: "Credentials",
@@ -20,9 +19,8 @@ const authOptions: NextAuthOptions = {
           email: string;
           password: string;
         };
-        // console.log(email, password);
         try {
-          const auth = await fetch("http://localhost:3001/auth", {
+          const auth = await fetch(`${apiURL}/auth`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -34,7 +32,6 @@ const authOptions: NextAuthOptions = {
           });
 
           const user = await auth.json();
-          // console.log(user);
           if (!user) {
             return null;
           } else {
@@ -44,7 +41,6 @@ const authOptions: NextAuthOptions = {
               return user;
             }
           }
-          // return user;
         } catch (error) {
           console.log(error);
           return null;
