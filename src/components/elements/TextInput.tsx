@@ -12,7 +12,9 @@ const TextInput = ({ ...props }: Props) => {
       onChange={(e) => props.setValue(e.target.value)}
       type={props.type || "text"}
       placeholder={props.placeholder || ""}
-      className={`input input-bordered w-full max-ful ${props.style || ""}`}
+      className={`input text-slate-800 input-bordered w-full max-ful ${
+        props.style || ""
+      }`}
       readOnly={props.readOnly || false}
     />
   );

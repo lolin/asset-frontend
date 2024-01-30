@@ -7,7 +7,7 @@ const HeaderCompnent = ({
 }) => {
   return (
     <div>
-      <h2 className="text-gray-600 font-semibold">{title}</h2>
+      <h2 className="text-slate-700 font-semibold text-4xl">{title}</h2>
       <span className="text-xs">{subTitle}</span>
     </div>
   );

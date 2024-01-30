@@ -78,7 +78,6 @@ const List: React.FC<AssetModelProps> = ({
       <Col style={"w-1/6"}>{assetModel.modelNumber}</Col>
       <Col style={"w-1/6"}>{assetModel.Manufacturer.name}</Col>
       <Col style={"w-1/6"}>{assetModel.Category.name}</Col>
-      <Col style={"w-1/6"}>{assetModel.eol}</Col>
       <Col style={"w-1/6"}>{assetModel.FieldSet.name}</Col>
       <Col style={"flex gap-5"}>
         <FiEdit

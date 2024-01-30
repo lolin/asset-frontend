@@ -31,6 +31,9 @@ const List: React.FC<CustomFieldProps> = ({
   const [fieldType, setFieldType] = useState<string>(customField.fieldType);
   const [fieldValue, setFieldValue] = useState<any>(customField.fieldValue);
   const [helperText, sethelperText] = useState<string>(customField.helperText);
+  const [orderNumber, setOrderNumber] = useState<number>(
+    customField.orderNumber
+  );
   const [fieldNameDelete, setFieldNameDelete] = useState<string>(
     customField.fieldName
   );
@@ -46,6 +49,7 @@ const List: React.FC<CustomFieldProps> = ({
         fieldType: fieldType,
         fieldValue: fieldValue,
         helperText: helperText,
+        orderNumber: orderNumber,
       };
       await fetchData({ url, method, body });
     }
@@ -165,6 +169,18 @@ const List: React.FC<CustomFieldProps> = ({
                   required={true}
                   inputValue={helperText}
                   setValue={sethelperText}
+                  style={""}
+                />
+              </div>
+              <div className="flex flex-wrap -mx-3 mb-6">
+                <Label htmlFor={"orderNumber"} label={"Order Number"} />
+                <TextInput
+                  label={"Order Number"}
+                  name={"orderNumber"}
+                  type={"number"}
+                  required={true}
+                  inputValue={orderNumber}
+                  setValue={setOrderNumber}
                   style={""}
                 />
               </div>

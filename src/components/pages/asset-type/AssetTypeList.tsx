@@ -45,6 +45,7 @@ const List: React.FC<AssetTypeProps> = ({ assetType, setRefresh }) => {
     const url = `asset-type/${assetType.id}`;
     const method = "DELETE";
     const body = "";
+    console.log(url);
     await fetchData({ url, method, body });
     setAssetTypeDelete("");
     setOpenModalDelete(false);

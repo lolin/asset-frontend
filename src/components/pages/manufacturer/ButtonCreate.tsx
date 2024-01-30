@@ -7,6 +7,8 @@ import Button from "@/components/elements/Button";
 import TextInput from "@/components/elements/TextInput";
 import ModalForm from "@/components/modal/ModalForm";
 import fetchData from "@/util/fetchWrapper";
+import Label from "@/components/elements/Label";
+import TxtArea from "@/components/elements/TxtArea";
 
 interface RefreshProps {
   setRefresh: any;
@@ -14,17 +16,37 @@ interface RefreshProps {
 const ButtonCreate = ({ setRefresh }: RefreshProps, {}) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [newTaskValue, setNewTaskValue] = useState<string>("");
+  const [image, setImage] = useState<string>("");
+  const [url, setUrl] = useState<string>("");
+  const [supportUrl, setSupportUrl] = useState<string>("");
+  const [supportEmail, setSupportEmail] = useState<string>("");
+  const [supportPhone, setSupportPhone] = useState<string>("");
+  const [supportAddress, setSupportAddress] = useState<string>("");
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const url = `manufacturers`;
     const method = "POST";
-    const body = { name: newTaskValue };
+    const body = {
+      name: newTaskValue,
+      image: image,
+      url: url,
+      supportUrl: supportUrl,
+      supportEmail: supportEmail,
+      supportPhone: supportPhone,
+      supportAddress: supportAddress,
+    };
     if (newTaskValue !== "") {
       await fetchData({ url, method, body });
       toast.success("Manufacturer added successfully");
       setRefresh(true);
     }
     setNewTaskValue("");
+    setImage("");
+    setUrl("");
+    setSupportUrl("");
+    setSupportEmail("");
+    setSupportPhone("");
+    setSupportAddress("");
     setModalOpen(false);
   };
   return (
@@ -38,19 +60,81 @@ const ButtonCreate = ({ setRefresh }: RefreshProps, {}) => {
       </button>
       <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
         <ModalForm handleSubmit={handleSubmit} title={"Add New Manufacturer"}>
-          <TextInput
-            label={"Name"}
-            name={"name"}
-            required={true}
-            inputValue={newTaskValue}
-            setValue={setNewTaskValue}
-            style={"text-gray-800"}
-          />
-          <Button
-            text={"Submit"}
-            type={"submit"}
-            style={"bg-blue-950 text-white hover:bg-slate-600"}
-          />
+          <div className="w-full max-w-lg mx-4">
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <Label htmlFor={"name"} label={"Name"} />
+              <TextInput
+                label={"Name"}
+                name={"name"}
+                required={true}
+                inputValue={newTaskValue}
+                setValue={setNewTaskValue}
+                style={""}
+              />
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <Label htmlFor={"url"} label={"Website"} />
+              <TextInput
+                label={"Website"}
+                name={"url"}
+                required={false}
+                inputValue={url ? url : ""}
+                setValue={setUrl}
+                style={""}
+              />
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <Label htmlFor={"supportUrl"} label={"Support URL"} />
+              <TextInput
+                label={"Support URL"}
+                name={"supportUrl"}
+                required={true}
+                inputValue={supportUrl ? supportUrl : ""}
+                setValue={setSupportUrl}
+                style={""}
+              />
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <Label htmlFor={"supportPhone"} label={"Support Phone"} />
+              <TextInput
+                label={"Support Phone"}
+                name={"supportPhone"}
+                required={true}
+                inputValue={supportPhone ? supportPhone : ""}
+                setValue={setSupportPhone}
+                style={""}
+              />
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <Label htmlFor={"supportEmail"} label={"Support Email"} />
+              <TextInput
+                label={"Support Email"}
+                name={"supportEmail"}
+                required={true}
+                inputValue={supportEmail ? supportEmail : ""}
+                setValue={setSupportEmail}
+                style={""}
+              />
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <Label htmlFor={"supportAddress"} label={"Support Address"} />
+              <TxtArea
+                label={"Support Address"}
+                name={"supportAddress"}
+                required={true}
+                inputValue={supportAddress ? supportAddress : ""}
+                setValue={setSupportAddress}
+                style={""}
+              />
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6 float-right">
+              <Button
+                text={"Submit"}
+                type={"submit"}
+                style={"bg-blue-950 text-white"}
+              />
+            </div>
+          </div>
         </ModalForm>
       </Modal>
     </div>

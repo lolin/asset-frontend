@@ -35,7 +35,7 @@ const List: React.FC<CategoryProps> = ({
     if (categoryEdit !== "") {
       const url = `category/${category.id}`;
       const method = "PATCH";
-      const body = { name: categoryEdit };
+      const body = { name: categoryEdit, assetTypeId: assetTypeEdit };
       await fetchData({ url, method, body });
     }
     setCategoryEdit("");
@@ -84,7 +84,7 @@ const List: React.FC<CategoryProps> = ({
                 <Label htmlFor={"asset_type"} label={"Asset Type"} />
                 <Select
                   label={""}
-                  name={"companyid"}
+                  name={"assetTypeId"}
                   required={true}
                   inputValue={assetTypeEdit}
                   setValue={setAssetTypeEdit}

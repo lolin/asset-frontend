@@ -25,7 +25,6 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
   const [modelManufacturerId, setModelManufacturerId] = useState<number>();
   const [modelNumber, setModelNumber] = useState<string>("");
   const [modelDepreciationId, setModelDepreciationId] = useState<number>();
-  const [modelEol, setModelEol] = useState<number>();
   const [modelFieldSetId, setModelFieldSetId] = useState<number>();
   const [modelNote, setModelNote] = useState<string>("");
   const [modelImageUrl, setModelImageUrl] = useState<string>("");
@@ -88,7 +87,6 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
       categoryId: modelCategoryId,
       fieldSetId: modelFieldSetId,
       depreciationId: modelDepreciationId,
-      eol: modelEol,
       notes: modelNote,
     };
     if (modelName !== "") {
@@ -113,6 +111,7 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
               onSubmit={(e) => {
                 handleSubmit(e);
               }}
+              autoComplete="off"
             >
               <h3 className="font-bold text-lg">Add Asset</h3>
               <div className="mt-4">
@@ -211,19 +210,6 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
                         </option>
                       ))}
                     </SelectOption>
-                  </div>
-                  <div className="flex flex-wrap -mx-3 mb-6">
-                    <TextField
-                      name={"eol"}
-                      label={"EOL"}
-                      inputValue={modelEol}
-                      setValue={setModelEol}
-                      required={false}
-                      type="number"
-                      placeholder=""
-                      style={""}
-                      divStyle="md:w-full mb-6 md:mb-0"
-                    />
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-6">
                     <SelectOption

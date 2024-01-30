@@ -23,7 +23,6 @@ export interface AssetModel {
     id: number;
     name: string;
   };
-  eol: number;
   notes: string;
   createdBy: string;
   modifiedBy: string;

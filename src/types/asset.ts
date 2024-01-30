@@ -1,11 +1,6 @@
 export interface Asset {
   id: number;
   name: string;
-  categoryId: number;
-  Category: {
-    id: number;
-    name: string;
-  };
   departmentId: number;
   Department: {
     id: number;

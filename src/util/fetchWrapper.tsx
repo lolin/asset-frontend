@@ -1,6 +1,7 @@
-import { apiURL } from "@config/config";
+import { localApiURL } from "@config/config";
 import { signOut } from "next-auth/react";
 import { getSession } from "next-auth/react";
+import { authURL } from "@config/config";
 interface Props {
   url: any;
   method: any;
@@ -9,7 +10,7 @@ interface Props {
 async function fetchData({ url, method, body }: Props) {
   const session = await getSession();
   const accessToken = session?.user?.accessToken || "";
-  const res = await fetch(`${apiURL}/${url}`, {
+  const res = await fetch(`${localApiURL}/${url}`, {
     cache: "no-store",
     method: `${method}`,
     headers: {
@@ -18,9 +19,10 @@ async function fetchData({ url, method, body }: Props) {
     },
     body: body ? JSON.stringify(body) : null,
   });
+  // console.log(res);
   if (!res.ok) {
     if (res.status === 401) {
-      signOut();
+      signOut({ callbackUrl: `${authURL}` });
     }
     throw new Error("Failed to fetch data");
   }

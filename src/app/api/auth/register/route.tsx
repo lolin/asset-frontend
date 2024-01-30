@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-
+import { apiURL } from "@config/config";
 export async function POST(request: NextRequest, res: NextResponse) {
   const req = await request.json();
-  console.log("ini 1: ", req);
   const method = "POST";
   const name = req.name;
   const eamil = req.email;
@@ -19,7 +18,7 @@ export async function POST(request: NextRequest, res: NextResponse) {
     }),
   };
 
-  const url = "http://localhost:3001/users";
+  const url = `${apiURL}/users`;
   console.log("ini", url);
   try {
     const response = await fetch(url, options);

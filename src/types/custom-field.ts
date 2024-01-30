@@ -6,6 +6,7 @@ export interface CustomField {
   fieldValue: string;
   fieldFormat: string;
   helperText: string;
+  orderNumber: number;
   createdBy: string;
   modifiedBy: string;
   createdAt: Date;

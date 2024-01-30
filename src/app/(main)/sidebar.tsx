@@ -70,6 +70,8 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
             height={32}
             src={"/images/logo/logo.svg"}
             alt="Logo"
+            priority={true}
+            style={{ width: "100%", height: "auto" }}
           />
         </Link>
 

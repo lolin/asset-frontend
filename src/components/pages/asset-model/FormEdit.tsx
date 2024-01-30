@@ -30,7 +30,6 @@ const FormEdit = (props: { params: string }) => {
   const [modelManufacturerId, setModelManufacturerId] = useState<number>();
   const [modelNumber, setModelNumber] = useState<string>("");
   const [modelDepreciationId, setModelDepreciationId] = useState<number>();
-  const [modelEol, setModelEol] = useState<number>();
   const [modelFieldSetId, setModelFieldSetId] = useState<number>();
   const [modelNote, setModelNote] = useState<string>("");
   const [modelImageUrl, setModelImageUrl] = useState<string>("");
@@ -48,7 +47,6 @@ const FormEdit = (props: { params: string }) => {
         setModelManufacturerId(res.payload.data.manufacturerId);
         setModelNumber(res.payload.data.modelNumber);
         setModelDepreciationId(res.payload.data.depreciationId);
-        setModelEol(res.payload.data.eol);
         setModelFieldSetId(res.payload.data.fieldSetId);
         setModelNote(res.payload.data.notes);
         setModelImageUrl(res.payload.data.imageUrl);
@@ -114,7 +112,6 @@ const FormEdit = (props: { params: string }) => {
       categoryId: modelCategoryId,
       fieldSetId: modelFieldSetId,
       depreciationId: modelDepreciationId,
-      eol: modelEol,
       notes: modelNote,
     };
     if (modelName !== "") {
@@ -163,6 +160,7 @@ const FormEdit = (props: { params: string }) => {
                 onSubmit={(e) => {
                   handleSubmit(e);
                 }}
+                autoComplete="off"
               >
                 <h3 className="font-bold text-lg">Add Asset</h3>
                 <div className="mt-4">
@@ -261,19 +259,6 @@ const FormEdit = (props: { params: string }) => {
                           </option>
                         ))}
                       </SelectOption>
-                    </div>
-                    <div className="flex flex-wrap -mx-3 mb-6">
-                      <TextField
-                        name={"eol"}
-                        label={"EOL"}
-                        inputValue={modelEol}
-                        setValue={setModelEol}
-                        required={false}
-                        type="number"
-                        placeholder=""
-                        style={""}
-                        divStyle="md:w-full mb-6 md:mb-0"
-                      />
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                       <SelectOption

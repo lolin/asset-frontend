@@ -9,7 +9,9 @@ const SelectCustom = ({ ...props }: Props) => {
       name={props.name}
       required={props.required || false}
       value={props.inputValue}
-      className={`select select-bordered w-full p-2.5  ${props.style || ""}`}
+      className={`select select-bordered text-base text-slate-800 w-full p-2.5  ${
+        props.style || ""
+      }`}
       onChange={(e) =>
         props.setValue(
           console.log(e.target.value),

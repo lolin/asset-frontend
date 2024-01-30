@@ -1,16 +1,22 @@
 interface ModalProps {
   modalOpen: boolean;
   setModalOpen: (open: boolean) => boolean | void;
+  modalSize?: string;
   children: React.ReactNode;
 }
-const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, children }) => {
+const Modal: React.FC<ModalProps> = ({
+  modalOpen,
+  setModalOpen,
+  modalSize,
+  children,
+}) => {
   return (
     <dialog
       id="my_modal_3"
       className={`modal ${modalOpen ? "modal-open" : ""} `}
     >
       {/* <div className="modal-box  w-11/12 max-w-5xl"> modal large */}
-      <div className="modal-box no-scrollbar">
+      <div className={`modal-box no-scrollbar ${modalSize}`}>
         <form method="dialog">
           <button
             onClick={() => setModalOpen(false)}

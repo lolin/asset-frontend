@@ -22,9 +22,6 @@ const List: React.FC<AssetProps> = ({ asset, setRefresh }) => {
   const [assetDelete, setAssetDelete] = useState<string>(asset.name);
   const [editAsset, setNewAsset] = useState<string>(asset.name);
   const [editAssetName, setEditAssetName] = useState<string>(asset.name);
-  const [editAssetCategoryId, setEditAssetCategoryId] = useState<number>(
-    asset.categoryId
-  );
   const [editAssetDepartmentId, setEditAssetDepartmentId] = useState<number>(
     asset.departmentId
   );
@@ -64,7 +61,6 @@ const List: React.FC<AssetProps> = ({ asset, setRefresh }) => {
     const method = "PATCH";
     const body = {
       name: editAssetName,
-      categoryId: editAssetCategoryId,
       departmentId: editAssetDepartmentId,
     };
     if (editAsset !== "") {
@@ -77,7 +73,7 @@ const List: React.FC<AssetProps> = ({ asset, setRefresh }) => {
   const handleDelete: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const url = `assets/${asset.id}`;
-    const method = "PATCH";
+    const method = "DELETE";
     const body = "";
     await fetchData({ url, method, body });
     setAssetDelete("");
@@ -89,9 +85,8 @@ const List: React.FC<AssetProps> = ({ asset, setRefresh }) => {
   return (
     <Row key={asset.id}>
       <Col style={"w-1/5"}>{asset.name}</Col>
-      <Col style={"w-1/5"}>{asset.AssetModel.Category.name}</Col>
-      <Col style={"w-1/5"}>{asset.AssetModel.modelNumber}</Col>
-      <Col style={"w-1/5"}>{asset.AssetModel.name}</Col>
+      <Col style={"w-1/5"}>{asset.AssetModel?.Category.name}</Col>
+      <Col style={"w-1/5"}>{asset.AssetModel?.name}</Col>
       <Col style={"w-1/5"}>{asset.Department.name}</Col>
       <Col style={"w-1/5"}>
         {asset.purchaseDate
@@ -99,226 +94,134 @@ const List: React.FC<AssetProps> = ({ asset, setRefresh }) => {
           : ""}
       </Col>
       <Col style={"flex gap-5"}>
-        <Link href={`/assets/${asset.id}`}>
+        <Link href={`/assets/detail/${asset.id}`}>
           <BsEye
-            onClick={() => setOpenModalPreview(true)}
+            // onClick={() => setOpenModalPreview(true)}
             size={20}
             className="text-blue-950 hover:text-slate-600 transition-all"
             cursor="pointer"
           />
         </Link>
-        <FiEdit
-          onClick={() => setOpenModalEdit(true)}
-          size={20}
-          className="text-blue-950 hover:text-slate-600 transition-all"
-          cursor="pointer"
-        />
-        <Modal modalOpen={openModalEdit} setModalOpen={setOpenModalEdit}>
-          <form onSubmit={handleSubmit}>
-            <h3 className="font-bold text-lg">Edit Asset</h3>
-            <div className="modal-action">
-              <div className="w-full max-w-lg">
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full px-3">
-                    <label
-                      className="block text-sm mb-2 text-gray-500"
-                      htmlFor="name"
-                    >
-                      Name
-                    </label>
-                    <input
-                      name="name"
-                      value={editAsset}
-                      onChange={(e) => setNewAsset(e.target.value)}
-                      type="text"
-                      placeholder="asset name.."
-                      className="input input-bordered w-full max-full text-sm"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label
-                      className="block text-sm mb-2 text-gray-500"
-                      htmlFor="phone"
-                    >
-                      Phone
-                    </label>
-                    <input
-                      name="phone"
-                      // value={editAssetPhone}
-                      // onChange={(e) => setNewAssetPhone(e.target.value)}
-                      type="phone"
-                      placeholder="phone.."
-                      className="input input-bordered w-full max-full text-sm"
-                      required
-                    />
-                  </div>
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label
-                      className="block text-sm mb-2 text-gray-500"
-                      htmlFor="email"
-                    >
-                      Email
-                    </label>
-                    <input
-                      name="email"
-                      // value={editAssetEmail}
-                      // onChange={(e) => setNewAssetEmail(e.target.value)}
-                      type="email"
-                      placeholder="email.."
-                      className="input input-bordered w-full max-full text-sm"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full px-3">
-                    <label
-                      className="block text-sm mb-2 text-gray-500"
-                      htmlFor="address"
-                    >
-                      Address
-                    </label>
-                    <textarea
-                      // value={editAssetAddress}
-                      id="message"
-                      rows={4}
-                      className="block p-2.5 w-full text-sm text-gray-600 rounded-lg border border-gray-300 "
-                      placeholder="Your message..."
-                      // onChange={(e) => setNewAssetAddress(e.target.value)}
-                    ></textarea>
-                  </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full px-3">
-                    <label
-                      className="block text-sm mb-2 text-gray-500"
-                      htmlFor="website"
-                    >
-                      Website
-                    </label>
-                    <input
-                      name="website"
-                      // value={editAssetWebsite}
-                      // onChange={(e) => setNewAssetWebsite(e.target.value)}
-                      type="text"
-                      placeholder="http://"
-                      className="input input-bordered w-full max-full text-sm"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full px-3">
-                    <label
-                      className="block text-sm mb-2 text-gray-500"
-                      htmlFor="onlineShop"
-                    >
-                      Online Shop
-                    </label>
-                    <input
-                      name="onlineShop"
-                      // value={editAssetOnlineShop}
-                      // onChange={(e) => setNewAssetOnlineShop(e.target.value)}
-                      type="text"
-                      placeholder="http://tokopedia.com/"
-                      className="input input-bordered w-full max-full text-sm"
-                      required
-                    />
-                  </div>
-                </div>
-                <hr className="my-6 border-gray-700" />
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full px-3">
-                    <label
-                      className="block text-sm mb-2 text-gray-500"
-                      htmlFor="picName"
-                    >
-                      PIC Name
-                    </label>
-                    <input
-                      name="picName"
-                      // value={editPICName}
-                      // onChange={(e) => setNewPICName(e.target.value)}
-                      type="text"
-                      placeholder="pic name.."
-                      className="input input-bordered w-full max-full text-sm"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label
-                      className="block text-sm mb-2 text-gray-500"
-                      htmlFor="picPhone"
-                    >
-                      PIC Phone
-                    </label>
-                    <input
-                      name="picPhone"
-                      // value={editPICPhone}
-                      // onChange={(e) => setNewPICPhone(e.target.value)}
-                      type="phone"
-                      placeholder="PIC Phone.."
-                      className="input input-bordered w-full max-full text-sm"
-                      required
-                    />
-                  </div>
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label
-                      className="block text-sm mb-2 text-gray-500"
-                      htmlFor="picEmail"
-                    >
-                      PIC Email
-                    </label>
-                    <input
-                      name="picEmail"
-                      // value={editPICEmail}
-                      // onChange={(e) => setNewPICEmail(e.target.value)}
-                      type="email"
-                      placeholder="PIC email.."
-                      className="input input-bordered w-full max-full text-sm"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-0">
-                  <div className="w-full px-3">
-                    <button
-                      type="submit"
-                      className="btn float-right bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-        </Modal>
+        <Link href={`/assets/${asset.id}`}>
+          <FiEdit
+            // onClick={() => setOpenModalEdit(true)}
+            size={20}
+            className="text-blue-950 hover:text-slate-600 transition-all"
+            cursor="pointer"
+          />
+        </Link>
         <FiTrash2
           onClick={() => setOpenModalDelete(true)}
           size={20}
           className="text-blue-950 hover:text-slate-600 transition-all"
           cursor="pointer"
         />
-        <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete}>
-          <form onSubmit={handleDelete}>
-            <h3 className="font-bold text-lg">Edit Asset</h3>
-            <div className="modal-action">
-              <p className="mt-4 mr-4">
-                Are you sure you want to delete this asset? {assetDelete}
-              </p>
-              <button type="submit" className="btn bg-red-500 text-white">
-                Delete
-              </button>
-            </div>
-          </form>
-        </Modal>
       </Col>
+      <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete}>
+        <form onSubmit={handleDelete}>
+          <h3 className="font-bold text-lg">Edit Asset</h3>
+          <div className="modal-action">
+            <p className="mt-4 mr-4">
+              Are you sure you want to delete this asset? {assetDelete}
+            </p>
+            <button type="submit" className="btn bg-red-500 text-white">
+              Delete
+            </button>
+          </div>
+        </form>
+      </Modal>
+      <Modal
+        modalOpen={openModalEdit}
+        setModalOpen={setOpenModalEdit}
+        modalSize="max-w-5xl"
+      >
+        <form onSubmit={handleSubmit}>
+          <h3 className="font-bold text-lg">Asset Detail</h3>
+          <div className="modal-action">
+            <div className="w-full">
+              <div className="flex flex-wrap -mx-3 mb-3">
+                <div className="w-full px-3">
+                  <label className="text-sm mb-2 text-gray-500" htmlFor="name">
+                    Asset Code:
+                  </label>
+                  <span className="text-slate-800 ml-3">{asset.name}</span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap -mx-3 mb-3">
+                <div className="w-full px-3">
+                  <label className="text-sm mb-2 text-gray-500" htmlFor="name">
+                    Department:
+                  </label>
+                  <span className="text-slate-800 ml-3">
+                    {asset.Department.name}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap -mx-3 mb-3">
+                <div className="w-full px-3">
+                  <label className="text-sm mb-2 text-gray-500" htmlFor="name">
+                    Category:
+                  </label>
+                  <span className="text-slate-800 ml-3">
+                    {asset.AssetModel?.Category.name}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap -mx-3 mb-3">
+                <div className="w-full px-3">
+                  <label className="text-sm mb-2 text-gray-500" htmlFor="name">
+                    Model:
+                  </label>
+                  <span className="text-slate-800 ml-3">
+                    {asset.AssetModel?.name}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap -mx-3 mb-3">
+                <div className="w-full px-3">
+                  <label className="text-sm mb-2 text-gray-500" htmlFor="name">
+                    Model Number:
+                  </label>
+                  <span className="text-slate-800 ml-3">
+                    {asset.AssetModel?.modelNumber}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap -mx-3 mb-3">
+                <div className="w-full px-3">
+                  <label className="text-sm mb-2 text-gray-500" htmlFor="name">
+                    Serial Number:
+                  </label>
+                  <span className="text-slate-800 ml-3">
+                    {asset.serialNumber}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap -mx-3 mb-3">
+                <div className="w-full px-3">
+                  <label className="text-sm mb-2 text-gray-500" htmlFor="name">
+                    MacAddress:
+                  </label>
+                  <span className="text-slate-800 ml-3">
+                    {asset.macAddress}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap -mx-3 mb-0">
+                <div className="w-full px-3">
+                  <button
+                    type="submit"
+                    className="btn float-right bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </Modal>
     </Row>
   );
 };

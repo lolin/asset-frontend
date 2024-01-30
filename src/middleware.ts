@@ -21,4 +21,10 @@ export default authMiddleware(mainmiddleware, [
   "/vendors",
   "/companies",
   "/departments",
+  "/field-sets",
+  "/asset-models",
+  "/asset-types",
+  "/custom-fields",
+  "/conditions",
+  "/depreciations",
 ]);

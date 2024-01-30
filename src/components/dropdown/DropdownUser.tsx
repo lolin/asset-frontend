@@ -4,6 +4,7 @@ import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { TbLogout2, TbSettings } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
+import { authURL } from "@config/config";
 const DropdownUser = () => {
   const { data: session }: { data: any } = useSession();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -57,6 +58,7 @@ const DropdownUser = () => {
             width={112}
             height={112}
             src={"/images/logo/logo-icon.svg"}
+            priority={true}
             alt="User"
           />
         </span>
@@ -125,7 +127,7 @@ const DropdownUser = () => {
         </ul>
         <button
           className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-blue-950 lg:text-base"
-          onClick={() => signOut()}
+          onClick={() => signOut({ callbackUrl: `${authURL}` })}
         >
           <TbLogout2 size={22} />
           Log Out

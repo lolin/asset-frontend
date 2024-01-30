@@ -55,7 +55,6 @@ const AssetModelTable: React.FC<AssetModelProps> = ({
                 <THead>Model No.</THead>
                 <THead>Manufacturer</THead>
                 <THead>Category</THead>
-                <THead>EOL</THead>
                 <THead>Field Set</THead>
                 <THead>Action</THead>
               </tr>
@@ -63,7 +62,7 @@ const AssetModelTable: React.FC<AssetModelProps> = ({
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={7} className=" p-4">
+                  <td colSpan={6} className=" p-4">
                     <Puff
                       stroke="#1C64F2"
                       fill="#1C64F2"
@@ -87,7 +86,7 @@ const AssetModelTable: React.FC<AssetModelProps> = ({
                 ))
               ) : (
                 <tr>
-                  <td colSpan={7} className="text-center p-4">
+                  <td colSpan={6} className="text-center p-4">
                     No data found
                   </td>
                 </tr>

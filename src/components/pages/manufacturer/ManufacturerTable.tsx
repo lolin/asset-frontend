@@ -41,13 +41,17 @@ const BrandTable: React.FC<BrandProps> = ({
             <thead>
               <tr>
                 <THead>Name</THead>
+                <THead>Website</THead>
+                <THead>Support URL</THead>
+                <THead>Support Phone</THead>
+                <THead>Support Email</THead>
                 <THead>Action</THead>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={2} className=" p-4">
+                  <td colSpan={6} className=" p-4">
                     <Puff
                       stroke="#1C64F2"
                       fill="#1C64F2"
@@ -67,7 +71,7 @@ const BrandTable: React.FC<BrandProps> = ({
                 ))
               ) : (
                 <tr>
-                  <td colSpan={2} className="text-center p-4">
+                  <td colSpan={6} className="text-center p-4">
                     No data found
                   </td>
                 </tr>

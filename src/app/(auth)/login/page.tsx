@@ -51,6 +51,8 @@ export default function Login({ searchParams }: any) {
               height={42}
               src={"/images/logo/logo.svg"}
               alt="Logo"
+              priority={true}
+              style={{ width: "70%", height: "auto" }}
             />
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
               Sign in

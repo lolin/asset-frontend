@@ -57,6 +57,7 @@ const Navbar = (props: {
               height={36}
               src={"/images/logo/logo-icon.svg"}
               alt="Logo"
+              priority={true}
             />
           </Link>
         </div>

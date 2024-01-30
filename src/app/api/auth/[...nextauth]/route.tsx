@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import Credentials from "next-auth/providers/credentials";
-import { apiURL } from "@config/config";
+import { localApiURL } from "@config/config";
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -20,7 +20,7 @@ const authOptions: NextAuthOptions = {
           password: string;
         };
         try {
-          const auth = await fetch(`${apiURL}/auth`, {
+          const auth = await fetch(`${localApiURL}/auth`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -51,7 +51,6 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }: any) {
       if (user) {
-        token.id = user.data.id;
         token.name = user.data.name;
         token.email = user.data.email;
         token.token = user.token;
@@ -62,7 +61,6 @@ const authOptions: NextAuthOptions = {
     },
     async session({ session, token }: any) {
       if (token) {
-        session.user.id = token.id as string;
         session.user.name = token.name as string;
         session.user.email = token.email as string;
         session.user.role = token.role as string;

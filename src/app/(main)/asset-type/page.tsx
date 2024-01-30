@@ -48,7 +48,7 @@ export default function AssetType() {
   return (
     <div className="bg-white p-8 rounded-md w-full shadow-xl">
       <div className=" mb-1 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <HeaderCompnent title="Asset Type" subTitle="All companies item" />
+        <HeaderCompnent title="Asset Type" subTitle="All asset type item" />
         <div className=" mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between ">
           <SearchComponent
             searchData={searchAssetType}

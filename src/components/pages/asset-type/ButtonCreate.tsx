@@ -66,7 +66,7 @@ const ButtonCreate = ({ setRefresh }: RefreshProps, {}) => {
               />
             </div>
             <div className="flex flex-wrap -mx-3 mb-0 float-right">
-              <Button text={"Update"} type={"submit"} style={""} />
+              <Button text={"Submit"} type={"submit"} style={""} />
             </div>
           </div>
         </ModalForm>

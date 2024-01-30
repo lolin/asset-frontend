@@ -27,6 +27,7 @@ const ButtonCreate: React.FC<RefreshProps> = (
   const [fieldType, setFieldType] = useState<string>("");
   const [fieldValue, setFieldValue] = useState<any>();
   const [helperText, sethelperText] = useState<string>("");
+  const [orderNumber, setOrderNumber] = useState<number>(1);
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (fieldName !== "") {
@@ -38,6 +39,7 @@ const ButtonCreate: React.FC<RefreshProps> = (
         fieldType: fieldType,
         fieldValue: fieldValue,
         helperText: helperText,
+        orderNumber: Number(orderNumber),
       };
       await fetchData({ url, method, body });
       setFieldName("");
@@ -155,6 +157,18 @@ const ButtonCreate: React.FC<RefreshProps> = (
                 required={true}
                 inputValue={helperText}
                 setValue={sethelperText}
+                style={""}
+              />
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <Label htmlFor={"orderNumber"} label={"Order Number"} />
+              <TextInput
+                label={"Order Number"}
+                name={"orderNumber"}
+                type={"number"}
+                required={true}
+                inputValue={orderNumber}
+                setValue={setOrderNumber}
                 style={""}
               />
             </div>
