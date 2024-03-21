@@ -55,7 +55,6 @@ const ButtonCreate = ({ setRefresh }: RefreshProps, {}) => {
         onClick={() => setModalOpen(true)}
         className="btn w-full bg-blue-950 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-slate-600"
       >
-        Create
         <AiOutlinePlus size={20} />
       </button>
       <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>

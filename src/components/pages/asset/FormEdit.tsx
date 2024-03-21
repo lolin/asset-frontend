@@ -227,7 +227,7 @@ const FormEdit = (props: { params: string }) => {
                 handleSubmit(e);
               }}
             >
-              <h3 className="font-bold text-lg">Add Asset</h3>
+              <h3 className="font-bold text-lg">Asset</h3>
               <div className="mt-4 w-full flex gap-6">
                 <div className="w-1/2">
                   <div className="flex flex-wrap -mx-3 mb-2">
@@ -351,7 +351,7 @@ const FormEdit = (props: { params: string }) => {
                             Number(e.target.value.replace(/,/g, ""))
                           );
                         }}
-                        className="input input-bordered w-full max-full"
+                        className="input input-bordered w-full max-full text-slate-800"
                       />
                     </div>
                   </div>
@@ -419,7 +419,7 @@ const FormEdit = (props: { params: string }) => {
                         name="purchaseDate"
                         selected={assetPurchaseDate}
                         onChange={(date) => setAssetPurchaseDate(date)}
-                        className="input input-bordered w-full max-full"
+                        className="input input-bordered w-full max-full text-slate-800"
                       />
                     </div>
                   </div>
@@ -433,7 +433,7 @@ const FormEdit = (props: { params: string }) => {
                         name="warrantyPeriod"
                         selected={assetWarantyPeriod}
                         onChange={(date) => setAssetWarantyPeriod(date)}
-                        className="input input-bordered w-full max-full"
+                        className="input input-bordered w-full max-full text-slate-800"
                       />
                     </div>
                   </div>
@@ -482,7 +482,7 @@ const FormEdit = (props: { params: string }) => {
                                 }
                                 type={item.fieldType}
                                 placeholder={item.helperText}
-                                className={`input input-bordered w-full max-ful`}
+                                className={`input input-bordered w-full max-ful text-slate-800`}
                               />
                             </div>
                           )}
@@ -498,7 +498,7 @@ const FormEdit = (props: { params: string }) => {
                                 id={item.id}
                                 name={item.fieldName}
                                 value={item.inputValue}
-                                className={`select select-bordered w-full p-2.5`}
+                                className={`select select-bordered w-full p-2.5 text-slate-800`}
                                 onChange={(e) =>
                                   setInputFields(
                                     inputFields.map((field: any) => {

@@ -135,6 +135,69 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
               </li>
               <SidebarLinkGroup
                 activeCondition={
+                  pathname === "/" || pathname.includes("remote-access")
+                }
+              >
+                {(handleClick, open) => {
+                  return (
+                    <React.Fragment>
+                      <Link
+                        href="#"
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-100 duration-300 ease-in-out hover:bg-gray-700 dark:hover:bg-gray-700 ${
+                          (pathname === "/utility" ||
+                            pathname.includes("utility")) &&
+                          "bg-gray-800 dark:bg-grey-700"
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          sidebarExpanded
+                            ? handleClick()
+                            : setSidebarExpanded(true);
+                        }}
+                      >
+                        <CgListTree size={22} />
+                        Remote
+                        <IoIosArrowDown
+                          size={18}
+                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
+                            open && "rotate-180"
+                          }`}
+                        />
+                      </Link>
+                      {/* <!-- Dropdown Menu Start --> */}
+                      <div
+                        className={`translate transform overflow-hidden ${
+                          !open && "hidden"
+                        }`}
+                      >
+                        <ul className="mt-4 mb-4 flex flex-col gap-2.5 pl-6">
+                          <li>
+                            <SidebarLink
+                              url="/remote-access"
+                              pathname={pathname}
+                              style={""}
+                            >
+                              Remote Access List
+                            </SidebarLink>
+                          </li>
+                          <li>
+                            <SidebarLink
+                              url="/email-list"
+                              pathname={pathname}
+                              style={""}
+                            >
+                              Email List
+                            </SidebarLink>
+                          </li>
+                        </ul>
+                      </div>
+                      {/* <!-- Dropdown Menu End --> */}
+                    </React.Fragment>
+                  );
+                }}
+              </SidebarLinkGroup>
+              <SidebarLinkGroup
+                activeCondition={
                   pathname === "/" || pathname.includes("manufacturers")
                 }
               >

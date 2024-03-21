@@ -12,14 +12,8 @@ export default function EditAsset(props: { params: { slug: string[] } }) {
       <div className=" flex items-center justify-between pb-6">
         <HeaderCompnent title="Edit Asset" subTitle="Edit asset" />
         <div className="flex items-center justify-between">
-          <Button
-            onClick={() => router.back()}
-            style={
-              "text-indigo-500 bg-indigo-50 border border-indigo-300 hover:bg-indigo-100 float-right"
-            }
-          >
+          <Button onClick={() => router.back()} style={""}>
             <IoArrowBackCircle size={20} />
-            Back {params.slug[0]}
           </Button>
         </div>
       </div>

@@ -29,7 +29,7 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
   const [assetSerialNumber, setAssetSerialNumber] = useState<string>("");
   const [assetMacAddress, setAssetMacAddress] = useState<string>("");
   const [assetDetail, setAssetDetail] = useState<string>("");
-  const [assetPrice, setAssetPrice] = useState<number>(10000);
+  const [assetPrice, setAssetPrice] = useState<number>(0);
   const [assetPurchaseDate, setAssetPurchaseDate] = useState<any>();
   const [assetWarantyPeriod, setAssetWarantyPeriod] = useState<any>();
   const [customFields, setCustomFields] = useState([]);
@@ -360,7 +360,7 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
                             Number(e.target.value.replace(/,/g, ""))
                           );
                         }}
-                        className="input input-bordered w-full max-full"
+                        className="input input-bordered w-full max-full text-slate-800"
                       />
                     </div>
                   </div>
@@ -428,7 +428,7 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
                         name="purchaseDate"
                         selected={assetPurchaseDate}
                         onChange={(date) => setAssetPurchaseDate(date)}
-                        className="input input-bordered w-full max-full"
+                        className="input input-bordered w-full max-full text-slate-800"
                       />
                     </div>
                   </div>
@@ -442,7 +442,7 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
                         name="warrantyPeriod"
                         selected={assetWarantyPeriod}
                         onChange={(date) => setAssetWarantyPeriod(date)}
-                        className="input input-bordered w-full max-full"
+                        className="input input-bordered w-full max-full text-slate-800"
                       />
                     </div>
                   </div>
@@ -491,7 +491,7 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
                                 }
                                 type={item.fieldType}
                                 placeholder={item.helperText}
-                                className={`input input-bordered w-full max-ful`}
+                                className={`input input-bordered w-full max-ful text-slate-800`}
                               />
                             </div>
                           )}
@@ -507,7 +507,7 @@ const FormCreate: React.FC = ({ ...props }: Props) => {
                                 id={item.id}
                                 name={item.fieldName}
                                 value={item.inputValue}
-                                className={`select select-bordered w-full p-2.5`}
+                                className={`select select-bordered w-full p-2.5 text-slate-800`}
                                 onChange={(e) =>
                                   setInputFields(
                                     inputFields.map((field: any) => {

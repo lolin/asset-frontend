@@ -18,7 +18,6 @@ const ButtonCreate = ({ setRefresh }: RefreshProps, {}) => {
         }}
         className="btn w-full bg-blue-950 hover:bg-slate-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
       >
-        Create
         <AiOutlinePlus size={20} />
       </button>
     </div>

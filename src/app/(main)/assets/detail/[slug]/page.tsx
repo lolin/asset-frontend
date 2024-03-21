@@ -14,7 +14,6 @@ export default function CreateAsset(props: { params: { slug: string[] } }) {
         <div className="flex items-center justify-between">
           <Button onClick={() => router.back()} style={""}>
             <IoArrowBackCircle size={20} />
-            Back
           </Button>
         </div>
       </div>
